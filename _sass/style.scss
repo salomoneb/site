@@ -59,11 +59,12 @@ footer {
   top: 2em;
 }
 .headline {
-  font-size: 4*$home-font-size;
-  line-height: $base-line-height - 0.5;
-  margin-bottom: 2rem;
+  font-size: 4em;
+  line-height: $base-line-height;
   @include media-query($on-palm) {
     font-size: 2.5*$home-font-size;
+    line-height: $base-line-height - 0.5;
+    margin-bottom: 2rem;
   }
 }
 .feed {
