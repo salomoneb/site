@@ -1,0 +1,30 @@
+title: Salomone Baquis
+description: Salomone Baquis is a project manager in Washington, DC.
+author: Salomone Baquis
+baseurl: /hagura # name of the repository
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+exclude:
+- README.md
+
+analytics: UA-77897332-1
+
+compress_html:
+  clippings: [html,div, p, ul, td, h1, h2, h3, h4,link, meta, footer, nav, img, header, hr, br, head, style, li, ul, ol, time, main, script, title]
+  comments: ["<!-- ", " -->"]
+  endings: [all]
+  ignore:
+    envs: [local]
+  blanklines: false
+  profile: false
+  startings: []
+
+sass:
+ style: compressed
+
+gems: 
+  - jekyll-paginate

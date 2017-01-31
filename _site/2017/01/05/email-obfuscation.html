@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" " rel="stylesheet">
+	  <link rel="stylesheet" href="/hagura/css/main.css">
+	  <meta property="og:locale" content="en_us">
+	  <meta property="og:type" content="article">
+	  <meta property="og:title" content="A Better Way To Hide Your Email Address - Salomone Baquis">
+	  <meta property="og:description" content="Salomone Baquis is a project manager in Washington, DC.">
+	  <meta property="og:url" content="http://localhost:4000/2017/01/05/email-obfuscation.html">
+	  <meta property="og:site_name" content="Salomone Baquis">
+	</head>
+	<body>
+	  <header>
+			<h1 class="post-headline">A Better Way To Hide Your Email Address</h1>
+			<a href="/hagura/">
+			<svg version="1.1" class="home" x="0px" y="0px"
+	 viewBox="0 0 54 54" style="enable-background:new 0 0 54 54;" xml:space="preserve">
+	 		<g>
+				<path style="fill:#076bc5;" d="M27,1L27,1c14.359,0,26,11.641,26,26v0c0,14.359-11.641,26-26,26h0C12.641,53,1,41.359,1,27v0
+			C1,12.641,12.641,1,27,1z"/>
+				<path style="fill:#076bc5;" d="M27,54C12.112,54,0,41.888,0,27S12.112,0,27,0s27,12.112,27,27S41.888,54,27,54z M27,2
+			C13.215,2,2,13.215,2,27s11.215,25,25,25s25-11.215,25-25S40.785,2,27,2z"/>
+			</g>
+			<path style="fill:#fff;" d="M31.706,40c-0.256,0-0.512-0.098-0.707-0.293L19.501,28.209c-0.667-0.667-0.667-1.751,0-2.418
+		l11.498-11.498c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414L21.12,27l11.293,11.293c0.391,0.391,0.391,1.023,0,1.414
+		C32.218,39.902,31.962,40,31.706,40z"/>
+			</g>
+		</svg>
+</a>
+	  </header>
+	  <div class="date"><span>January 05, 2017</span></div>
+<p>The other day, midway down a Wikipedia rabbit hole, I started reading about <em><a href="https://en.wikipedia.org/wiki/Massachusetts_Bay_Transportation_Authority_v._Anderson">Massachusetts Bay Transportation Authority v. Anderson</a></em>, a 2008 court case where the Boston train system tried to stop three MIT students from publicly exposing a security vulnerability that allowed them to create fare cards with values for free.</p>
+
+<p>Curious about what a bunch of ex-hackers were doing with their lives nine years later, I looked up them up. On the <a href="www.rustyryan.net/connect/">contact page</a> of RJ Ryan’s website, right below several lines telling people not to spam him, I noticed an email link - a <code class="highlighter-rouge">mailto:</code> URL, not a form. This surprised me: directly posting your email address is an internet no-no, and if anyone would be aware of this, it’d be an MIT cryptographic specialist.</p>
+
+<p>Looking at the source code, I found this bit of trickery:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">  <span class="kd">function</span> <span class="nx">deobfuscate</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">dictionary</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'@'</span><span class="p">,</span><span class="s1">'.'</span><span class="p">,</span><span class="s1">'r'</span><span class="p">,</span><span class="s1">'y'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'n'</span><span class="p">,</span><span class="s1">'m'</span><span class="p">,</span><span class="s1">'i'</span><span class="p">,</span><span class="s1">'t'</span><span class="p">,</span><span class="s1">'e'</span><span class="p">,</span><span class="s1">'d'</span><span class="p">,</span><span class="s1">'u'</span><span class="p">,</span><span class="s1">'j'</span><span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">letters</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">];</span>
+
+    <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="s2">"mailto:"</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">letters</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">result</span> <span class="o">+=</span> <span class="nx">dictionary</span><span class="p">[</span><span class="nx">letters</span><span class="p">[</span><span class="nx">i</span><span class="p">]];</span>
+    <span class="p">}</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"mail"</span><span class="p">).</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">"href"</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+  <span class="p">}</span></code></pre></figure>
+
+<p>This is very clever. The function is called when someone clicks on the email link. Here’s what happens:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">var dictionary</code> contains all of the characters in the email address, shuffled. <code class="highlighter-rouge">var letters</code> contains the indices of the letters in <code class="highlighter-rouge">dictionary</code>.</li>
+  <li>The function loops through the elements in <code class="highlighter-rouge">letters</code>.</li>
+  <li>The elements of <code class="highlighter-rouge">letters</code> are accessed from  the beginning, starting from index 0.<br />
+Since <code class="highlighter-rouge">letters</code> consists of numbers, the <code class="highlighter-rouge">dictionary</code> elements are then accessed out of order (<code class="highlighter-rouge">dictionary[2]</code>, <code class="highlighter-rouge">dictionary[12]</code>, etc.).</li>
+  <li>The result of each loop is appended to <code class="highlighter-rouge">var result</code>, which forms the <code class="highlighter-rouge">mailto:</code> string.</li>
+  <li>The <code class="highlighter-rouge">setAttribute</code> method sets the final link <code class="highlighter-rouge">href</code>.</li>
+</ol>
+
+<p>All of this works because the indices of <code class="highlighter-rouge">var letters</code> correspond to the order that the <code class="highlighter-rouge">dictionary</code> characters should be assembled in.</p>
+
+<p>I have no idea how effective this actually is for stopping spambots (some people also claim that <a href="https://qz.com/181635/surprise-theres-really-no-need-to-conceal-your-email-address-from-spammers/">obfuscation is worthless</a>), but I loved the idea and wanted to use it on my own website; however, as someone with a long email address, I really didn’t want to have to deal with manually shuffling the characters and assigning references to things, so I figured I’d Get The Computer To Do It For Me.</p>
+
+<p>To shuffle the variable elements, I used a version of the <a href="https://bost.ocks.org/mike/shuffle/">Fisher-Yates Shuffle</a>.</p>
+
+<p>Setting everything up in a way that made sense when it was decrypted turned out to be the tricky part. I started off trying to create key-value pairs for the characters and indices using objects and two-dimensional arrays, but my results kept returning all mixed up.</p>
+
+<p>I needed to find a way to shuffle my elements <em>and</em> call them in the correct order. Then I remembered <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf"><code class="highlighter-rouge">indexOf()</code></a>, which returns the first occurrence of each string value. Looping through each letter of the original email address and returning its index position in a shuffled version of the string, I was able to construct my <code class="highlighter-rouge">letters</code> array.</p>
+
+<p>Here’s the final code:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Enter your email. </span>
+<span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">"youremailaddress@gmail.com"</span>
+
+<span class="kd">var</span> <span class="nx">shuffledNameArray</span> <span class="o">=</span> <span class="nx">shuffle</span><span class="p">(</span><span class="nx">name</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">""</span><span class="p">))</span>
+<span class="kd">var</span> <span class="nx">shuffledNameString</span> <span class="o">=</span> <span class="nx">shuffledNameArray</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+
+<span class="c1">// Don't include this stuff on your webpage. </span>
+<span class="c1">// Fisher-Yates Shuffle (https://bost.ocks.org/mike/shuffle/)</span>
+<span class="kd">function</span> <span class="nx">shuffle</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">original</span> <span class="o">=</span> <span class="nx">array</span><span class="p">.</span><span class="nx">length</span> 
+  <span class="kd">var</span> <span class="nx">swapped</span>
+  <span class="kd">var</span> <span class="nx">element</span>
+
+  <span class="k">while</span> <span class="p">(</span><span class="nx">original</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">element</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">original</span><span class="o">--</span><span class="p">)</span>
+    <span class="nx">swapped</span> <span class="o">=</span> <span class="nx">array</span><span class="p">[</span><span class="nx">original</span><span class="p">]</span>
+    <span class="nx">array</span><span class="p">[</span><span class="nx">original</span><span class="p">]</span> <span class="o">=</span> <span class="nx">array</span><span class="p">[</span><span class="nx">element</span><span class="p">]</span>
+    <span class="nx">array</span><span class="p">[</span><span class="nx">element</span><span class="p">]</span> <span class="o">=</span> <span class="nx">swapped</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">array</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">positions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">name</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="nx">shuffledNameString</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">name</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+    <span class="nx">positions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">position</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">deobfuscate</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">dictionary</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"."</span><span class="p">,</span><span class="s2">"q"</span><span class="p">,</span><span class="s2">"@"</span><span class="p">,</span><span class="s2">"."</span><span class="p">,</span><span class="s2">"."</span><span class="p">,</span><span class="s2">"l"</span><span class="p">,</span><span class="s2">"c"</span><span class="p">,</span><span class="s2">"m"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"s"</span><span class="p">,</span><span class="s2">"u"</span><span class="p">,</span><span class="s2">"i"</span><span class="p">,</span><span class="s2">"i"</span><span class="p">,</span><span class="s2">"l"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"n"</span><span class="p">,</span><span class="s2">"b"</span><span class="p">,</span><span class="s2">"o"</span><span class="p">,</span><span class="s2">"e"</span><span class="p">,</span><span class="s2">"g"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"o"</span><span class="p">,</span><span class="s2">"m"</span><span class="p">,</span><span class="s2">"l"</span><span class="p">,</span><span class="s2">"m"</span><span class="p">,</span><span class="s2">"o"</span><span class="p">,</span><span class="s2">"s"</span><span class="p">]</span>
+	<span class="kd">var</span> <span class="nx">letters</span> <span class="o">=</span> <span class="p">[</span><span class="mi">26</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">22</span><span class="p">]</span>
+	<span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="s2">"mailto:"</span>
+	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">letters</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">result</span> <span class="o">+=</span> <span class="nx">dictionary</span><span class="p">[</span><span class="nx">letters</span><span class="p">[</span><span class="nx">i</span><span class="p">]]</span>
+	<span class="p">}</span>
+	<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"email"</span><span class="p">).</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">"href"</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"click"</span><span class="p">,</span> <span class="nx">deobfuscate</span><span class="p">)</span>  </code></pre></figure>
+
+
+		
+		
+	  <footer>
+	  	<div class="links">
+				<a href="/hagura/about/">About</a>
+				<a href id="email">Email</a>
+				<a href="https://www.linkedin.com/in/salomonebaquis">Linkedin</a>
+				<a href="https://github.com/salomoneb/">GitHub</a>
+			</div>
+		</footer>
+		
+
+		<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-77897332-1', 'auto');
+  ga('send', 'pageview');
+</script>
+		<script>
+			function deobfuscate() {
+				var dictionary = [".","q","@",".",".","l","c","m","a","s","u","i","i","l","a","n","b","o","e","g","a","o","m","l","m","o","s"];
+				var letters = [26,8,5,25,24,21,15,18,0,13,3,16,14,1,10,11,9,2,19,7,20,12,23,4,6,17,22];
+				var result = "mailto:";
+				for(var i=0;i<letters.length;i++) {
+					result += dictionary[letters[i]];
+				};
+				document.getElementById("email").setAttribute("href", result);
+			}
+			document.addEventListener("click", deobfuscate)
+		</script>
+	</body>
+</html>
