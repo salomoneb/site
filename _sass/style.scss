@@ -70,9 +70,18 @@ footer {
 -------*/
 .headline {
   font-size: 4*$home-font-size;
+  line-height: $base-line-height - 0.5;
+  margin-bottom: 2rem;
   @include media-query($on-palm) {
-    font-size: 2em;
+    font-size: 2.5*$home-font-size;
   }
+}
+.feed {
+  @include media-query($on-palm) {
+    font-size: 2*$home-font-size;
+    line-height: 0.7em;
+    margin: 0.4em 0;
+  }  
 }
 .feed a {
   color: $dark-text-color;
