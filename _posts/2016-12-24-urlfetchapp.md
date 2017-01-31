@@ -3,7 +3,7 @@ layout: post
 title: "Using UrlFetchApp"
 date: 2016-12-24
 ---
-You can make external HTTP requests in a Google Apps Script using [`UrlFetchApp`](https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app). This is very useful if you want to integrate external APIs with something like a Google sheet. Here's how I used it to pull in [Facebook advertising data:]({{ site.baseurl }}{% link _posts/2016-12-22-ad-workflow.md %})
+You can make HTTP requests in a Google Apps Script using [`UrlFetchApp`](https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app). This is very useful if you want to integrate external APIs with something like a Google sheet. Here's how I used it to pull in [Facebook advertising data:]({{ site.baseurl }}{% link _posts/2016-12-22-ad-workflow.md %})
 
 {% highlight javascript %}
 var token = "XXXXX"
