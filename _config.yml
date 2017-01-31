@@ -1,7 +1,7 @@
 title: Salomone Baquis
 description: Salomone Baquis is a project manager in Washington, DC.
 author: Salomone Baquis
-baseurl: / # name of the repository
+baseurl: /salomoneb.github.io # name of the repository
 
 markdown: kramdown
 kramdown:
