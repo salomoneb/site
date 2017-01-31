@@ -58,16 +58,6 @@ footer {
   position: relative;
   top: 2em;
 }
-/* Footer navigation links */
-.links {
-  margin-bottom: 2em;
-}
-.links a {
-  margin-right: 1em;
-  color: $light-text-color;
-}
-/* Home
--------*/
 .headline {
   font-size: 4*$home-font-size;
   line-height: $base-line-height - 0.5;
@@ -91,12 +81,16 @@ footer {
     opacity: 1;
   }
 }
+.links {
+  margin-bottom: 2em;
+}
+.links a {
+  margin-right: 1em;
+  color: $light-text-color;
+}
 .home-links a {
   font-size: $home-font-size;
 }
-
-/* Internal
------------*/
 .post-headline {
   font-size: 3em;
   line-height: $base-line-height - 0.5;
@@ -136,8 +130,6 @@ footer {
     height: 180px;
   }   
 }
-/* Adds "Contents" before TOC
------------------------------*/
 #markdown-toc::before {
     content: "Contents";
     font-weight: bold;
