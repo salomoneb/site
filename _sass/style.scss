@@ -95,7 +95,7 @@ footer {
 .post-headline {
   font-size: 3em;
   line-height: $base-line-height - 0.5;
-  padding-bottom: 1em;
+  padding: 1em 0;
   @include media-query($on-palm) {
     font-size: 1.5em;
   }
