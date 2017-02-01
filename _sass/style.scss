@@ -71,13 +71,11 @@ footer {
 }
 .feed {
   margin-top: 1em;
-  width: 70%;
 }
 .feed h3 {
   line-height: 1.5em;
   padding: 0.1em 0;
   @include media-query($on-palm) {
-    max-width: 100%;
     font-size: 1.17*$home-font-size;
     line-height: $base-line-height - 0.5;
     padding: 1rem 0;
