@@ -6,7 +6,7 @@ date: 2017-01-05
 
 The other day, midway down a Wikipedia rabbit hole, I started reading about *[Massachusetts Bay Transportation Authority v. Anderson](https://en.wikipedia.org/wiki/Massachusetts_Bay_Transportation_Authority_v._Anderson)*, a 2008 court case where the Boston train system tried to stop three MIT students from publicly exposing a security vulnerability that allowed them to create fare cards with values for free. 
 
-Curious about what a bunch of ex-hackers were doing with their lives nine years later, I looked up them up. On the [contact page](www.rustyryan.net/connect/) of RJ Ryan’s website, right below several lines telling people not to spam him, I noticed an email link - a `mailto:` URL, not a form. This surprised me: directly posting your email address is an internet no-no, and if anyone would be aware of this, it’d be an MIT cryptographic specialist.
+Curious about what a bunch of ex-hackers were doing with their lives nine years later, I looked them up. On the [contact page](www.rustyryan.net/connect/) of RJ Ryan’s website, right below several lines telling people not to spam him, I noticed an email link - a `mailto:` URL, not a form. This surprised me: directly posting your email address is an internet no-no, and if anyone would be aware of this, it’d be an MIT cryptographic specialist.
 
 Looking at the source code, I found this bit of trickery: 
 {% highlight javascript %}
@@ -33,7 +33,7 @@ Since `letters` consists of numbers, the `dictionary` elements are then accessed
 
 All of this works because the indices of `var letters` correspond to the order that the `dictionary` characters should be assembled in.
 
-I have no idea how effective this actually is for stopping spambots (some people also claim that [obfuscation is worthless](https://qz.com/181635/surprise-theres-really-no-need-to-conceal-your-email-address-from-spammers/)), but I loved the idea and wanted to use it on my own website; however, as someone with a long email address, I really didn’t want to have to deal with manually shuffling the characters and assigning references to things, so I figured I’d Get The Computer To Do It For Me. 
+I have no idea how effective this actually is for stopping spambots (some people also claim that [obfuscation is worthless](https://qz.com/181635/surprise-theres-really-no-need-to-conceal-your-email-address-from-spammers/)), but I liked the idea and wanted to use it on my own website. However, as someone with a long email address, I really didn’t want to have to deal with manually shuffling the characters and assigning references to things, so I figured I’d Get The Computer To Do It For Me. 
 
 
 To shuffle the variable elements, I used a version of the [Fisher-Yates Shuffle](https://bost.ocks.org/mike/shuffle/). 
@@ -45,14 +45,12 @@ I needed to find a way to shuffle my elements *and* call them in the correct ord
 Here’s the final code:
 
 {% highlight javascript %}
-
-// Enter your email. 
+// Don't include this on your website
 var name = "youremailaddress@gmail.com"
 
 var shuffledNameArray = shuffle(name.split(""))
 var shuffledNameString = shuffledNameArray.join("")
-
-// Don't include this stuff on your webpage. 
+ 
 // Fisher-Yates Shuffle (https://bost.ocks.org/mike/shuffle/)
 function shuffle(array) {
   var original = array.length 
@@ -74,6 +72,7 @@ for (var i=0; i<name.length; i++) {
     positions.push(position)
 }
 
+// Include this part on your website
 function deobfuscate() {
 	var dictionary = [".","q","@",".",".","l","c","m","a","s","u","i","i","l","a","n","b","o","e","g","a","o","m","l","m","o","s"]
 	var letters = [26,8,5,25,24,21,15,18,0,13,3,16,14,1,10,11,9,2,19,7,20,12,23,4,6,17,22]
