@@ -17,7 +17,7 @@ body {
   }
 }
 h1,h2,h3,h4,h5,h6 {
- font-family: "Lato", "Helvetica Neue", Helvetica, sans-serif;
+ font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
  font-weight: bold;
  line-height: 1.8;
  margin: 0;
@@ -42,6 +42,8 @@ code {
   font-size: 0.8*$base-font-size;
 }
 pre {
+  background-color: rgba(204, 204, 204, 0.18);
+  border-radius: 0.5em;
   padding: 1em;
 }
 code {

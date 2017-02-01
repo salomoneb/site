@@ -3,7 +3,6 @@ title: About
 layout: post
 permalink: /about/
 ---
-
 My name is Salomone Baquis, pronounced like *sol-uh-min bah-kweese*. 
 
 I'm a project manager based in Washington, DC. Previously, I worked at [Beekeeper Group](http://www.beekeepergroup.com), where I helped build websites and digital tools for advocacy campaigns. 
