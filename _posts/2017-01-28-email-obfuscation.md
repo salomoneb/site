@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "A Better Way To Hide Your Email Address"
-date: 2017-01-05 
+date: 2017-01-28
 ---
 
 The other day, midway down a Wikipedia rabbit hole, I started reading about *[Massachusetts Bay Transportation Authority v. Anderson](https://en.wikipedia.org/wiki/Massachusetts_Bay_Transportation_Authority_v._Anderson)*, a 2008 court case where the Boston train system tried to stop three MIT students from publicly exposing a security vulnerability that allowed them to create fare cards with values for free. 
