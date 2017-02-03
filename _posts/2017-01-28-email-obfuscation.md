@@ -6,7 +6,7 @@ date: 2017-01-28
 
 The other day, midway down a Wikipedia rabbit hole, I started reading about *[Massachusetts Bay Transportation Authority v. Anderson](https://en.wikipedia.org/wiki/Massachusetts_Bay_Transportation_Authority_v._Anderson)*, a 2008 court case where the Boston train system tried to stop three MIT students from publicly exposing a security vulnerability that allowed them to create fare cards with values for free. 
 
-Curious about what a bunch of ex-hackers were doing with their lives nine years later, I looked them up. On the [contact page](www.rustyryan.net/connect/) of RJ Ryan’s website, right below several lines telling people not to spam him, I noticed an email link - a `mailto:` URL, not a form. This surprised me: directly posting your email address is an internet no-no, and if anyone would be aware of this, it’d be an MIT cryptographic specialist.
+Curious about what a bunch of ex-hackers were doing with their lives nine years later, I looked them up. On the [contact page](http://www.rustyryan.net/connect/) of RJ Ryan’s website, right below several lines telling people not to spam him, I noticed an email link - a `mailto:` URL, not a form. This surprised me: directly posting your email address is an internet no-no, and if anyone would be aware of this, it’d be an MIT cryptographic specialist.
 
 Looking at the source code, I found this bit of trickery: 
 {% highlight javascript %}
@@ -73,18 +73,19 @@ for (var i=0; i<name.length; i++) {
 }
 
 // Include this part on your website
+var emailLink = document.getElementById("email")
 function deobfuscate() {
   // Use shuffledNameArray
 	var dictionary = [".","q","@",".",".","l","c","m","a","s","u","i","i","l","a","n","b","o","e","g","a","o","m","l","m","o","s"]
-
   // Use positions
 	var letters = [26,8,5,25,24,21,15,18,0,13,3,16,14,1,10,11,9,2,19,7,20,12,23,4,6,17,22]
 	var result = "mailto:"
 	for(var i=0;i<letters.length;i++) {
 		result += dictionary[letters[i]]
 	}
-	document.getElementById("email").setAttribute("href", result)
+	emailLink.setAttribute("href", result)
+  console.log(result)
 }
-document.addEventListener("click", deobfuscate)  
+emailLink.addEventListener("click", deobfuscate)  
 
 {% endhighlight %}

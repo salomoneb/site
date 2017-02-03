@@ -1,6 +1,6 @@
----
+<!-- ---
 layout: compress
----
+--- -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -17,7 +17,7 @@ layout: compress
 	</head>
 	<body>
 	  <header>
-			{% if page.url == "/" %}<h1 class="headline">{{site.title}}</h1>{% else %}<h1 class="post-headline">{{page.title}}</h1>
+			{% if page.url == "/" %}<h1 class="headline"><span class="title">{{site.title}}</span></h1>{% else %}<h1 class="post-headline">{{page.title}}</h1>
 			<a href="{{site.baseurl}}/">
 			<svg version="1.1" class="home" x="0px" y="0px"
 	 viewBox="0 0 54 54" style="enable-background:new 0 0 54 54;" xml:space="preserve">
@@ -51,6 +51,7 @@ layout: compress
 		<script>
 			/* Taken from RJ Ryan: http://www.rustyryan.net/connect/
 			See also: http://salomonebaquis.com/2017/01/05/email-obfuscation.html*/
+			var emailLink = document.getElementById("email")
 			function deobfuscate() {
 				var dictionary = [".","q","@",".",".","l","c","m","a","s","u","i","i","l","a","n","b","o","e","g","a","o","m","l","m","o","s"];
 				var letters = [26,8,5,25,24,21,15,18,0,13,3,16,14,1,10,11,9,2,19,7,20,12,23,4,6,17,22];
@@ -58,9 +59,9 @@ layout: compress
 				for(var i=0;i<letters.length;i++) {
 					result += dictionary[letters[i]];
 				};
-				document.getElementById("email").setAttribute("href", result);
+				emailLink.setAttribute("href", result);
 			}
-			document.addEventListener("click", deobfuscate)
+			emailLink.addEventListener("click", deobfuscate)
 		</script>
 	</body>
 </html>
