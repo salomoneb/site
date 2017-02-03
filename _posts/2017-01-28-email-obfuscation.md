@@ -74,7 +74,10 @@ for (var i=0; i<name.length; i++) {
 
 // Include this part on your website
 function deobfuscate() {
+  // Use shuffledNameArray
 	var dictionary = [".","q","@",".",".","l","c","m","a","s","u","i","i","l","a","n","b","o","e","g","a","o","m","l","m","o","s"]
+
+  // Use positions
 	var letters = [26,8,5,25,24,21,15,18,0,13,3,16,14,1,10,11,9,2,19,7,20,12,23,4,6,17,22]
 	var result = "mailto:"
 	for(var i=0;i<letters.length;i++) {
