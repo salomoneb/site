@@ -3,7 +3,7 @@ layout: post
 title: "Creating An Automated Ad Workflow With Google Scripts"
 date: 2016-12-22
 ---
-It feels a little silly to evangelize Google, one of the largest, richest companies in the world and a soulless, monolithic enterprise if ever there was one, but I’ll come right out and say: the Google Docs product suite is pretty cool. 
+It feels a little silly to evangelize Google, one of the largest, richest companies in the world and a soulless, monolithic enterprise if ever there was one, but I’ll come right out and say it: the Google Docs suite is really, really cool. 
 
 Beyond the basic fact that you get to seamlessly collaborate with people in real-time, the functionality is exceptional; simple enough for anyone to use, but with enough APIs, documentation, and developer support to create fully-fledged custom software. 
 
