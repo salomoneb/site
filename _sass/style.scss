@@ -1,5 +1,5 @@
 html, body {
-    height: 100%;
+  height: 100%;
 }
 body {
   max-width: $content-width;
@@ -87,6 +87,9 @@ footer {
     color: $brand-color;
     opacity: 1;
   }
+}
+.wrapper {
+  width: 95%;
 }
 .links {
   margin-bottom: 2em;
