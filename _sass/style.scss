@@ -3,6 +3,7 @@ html, body {
 }
 body {
   max-width: $content-width;
+  width: 90%;
   font-family: $base-font-family;
   margin: 0 auto;
   line-height: $base-line-height;
@@ -74,7 +75,7 @@ footer {
 }
 .feed h3 {
   line-height: 1.5em;
-  padding: 0.1em 0;
+  padding: 0.3em 0;
   @include media-query($on-palm) {
     font-size: 1.17*$home-font-size;
     line-height: $base-line-height - 0.5;
@@ -92,7 +93,7 @@ footer {
   margin-bottom: 2em;
 }
 .links a {
-  padding-right: 1em;
+  margin-right: 1em;
   color: $light-text-color;
 }
 .home-links a {

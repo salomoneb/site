@@ -1,40 +1,4 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	  <meta charset="utf-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1">
-	  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" " rel="stylesheet">
-	  <link rel="stylesheet" href="/css/main.css">
-	  <meta property="og:locale" content="en_us">
-	  <meta property="og:type" content="article">
-	  <meta property="og:title" content="Using UrlFetchApp - Salomone Baquis">
-	  <meta property="og:description" content="Salomone Baquis is a project manager in Washington, DC.">
-	  <meta property="og:url" content="http://localhost:4000/2016/12/24/urlfetchapp.html">
-	  <meta property="og:site_name" content="Salomone Baquis">
-	</head>
-	<body>
-	  <header>
-			<h1 class="post-headline">Using UrlFetchApp</h1>
-			<a href="/">
-			<svg version="1.1" class="home" x="0px" y="0px"
-	 viewBox="0 0 54 54" style="enable-background:new 0 0 54 54;" xml:space="preserve">
-	 		<g>
-				<path style="fill:#076bc5;" d="M27,1L27,1c14.359,0,26,11.641,26,26v0c0,14.359-11.641,26-26,26h0C12.641,53,1,41.359,1,27v0
-			C1,12.641,12.641,1,27,1z"/>
-				<path style="fill:#076bc5;" d="M27,54C12.112,54,0,41.888,0,27S12.112,0,27,0s27,12.112,27,27S41.888,54,27,54z M27,2
-			C13.215,2,2,13.215,2,27s11.215,25,25,25s25-11.215,25-25S40.785,2,27,2z"/>
-			</g>
-			<path style="fill:#fff;" d="M31.706,40c-0.256,0-0.512-0.098-0.707-0.293L19.501,28.209c-0.667-0.667-0.667-1.751,0-2.418
-		l11.498-11.498c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414L21.12,27l11.293,11.293c0.391,0.391,0.391,1.023,0,1.414
-		C32.218,39.902,31.962,40,31.706,40z"/>
-			</g>
-		</svg>
-</a>
-	  </header>
-	  <div class="date"><span>December 24, 2016</span></div>
-<p>You can make HTTP requests in a Google Apps Script using <a href="https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app"><code class="highlighter-rouge">UrlFetchApp</code></a>. This is very useful if you want to integrate external APIs with something like a Google sheet. Here’s how I used it to pull in <a href="/2016/12/22/ad-workflow.html">Facebook advertising data:</a></p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">token</span> <span class="o">=</span> <span class="s2">"XXXXX"</span>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" " rel="stylesheet"><link rel="stylesheet" href="/css/main.css"><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="og:title" content="Using UrlFetchApp - Salomone Baquis"><meta property="og:description" content="Salomone Baquis is a project manager in Washington, DC."><meta property="og:url" content="http://localhost:4000/2016/12/24/urlfetchapp.html"><meta property="og:site_name" content="Salomone Baquis"></head><body><header><h1 class="post-headline">Using UrlFetchApp</h1><a href="/"> <svg version="1.1" class="home" x="0px" y="0px" viewBox="0 0 54 54" style="enable-background:new 0 0 54 54;" xml:space="preserve"> <g><path style="fill:#0081e9;" d="M27,1L27,1c14.359,0,26,11.641,26,26v0c0,14.359-11.641,26-26,26h0C12.641,53,1,41.359,1,27v0 C1,12.641,12.641,1,27,1z"/><path style="fill:#0081e9;" d="M27,54C12.112,54,0,41.888,0,27S12.112,0,27,0s27,12.112,27,27S41.888,54,27,54z M27,2 C13.215,2,2,13.215,2,27s11.215,25,25,25s25-11.215,25-25S40.785,2,27,2z"/> </g><path style="fill:#fff;" d="M31.706,40c-0.256,0-0.512-0.098-0.707-0.293L19.501,28.209c-0.667-0.667-0.667-1.751,0-2.418 l11.498-11.498c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414L21.12,27l11.293,11.293c0.391,0.391,0.391,1.023,0,1.414 C32.218,39.902,31.962,40,31.706,40z"/> </g> </svg> </a></header><div class="date"><span>December 24, 2016</span></div><main class="main"><p>You can make HTTP requests in a Google Apps Script using <a href="https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app"><code class="highlighter-rouge">UrlFetchApp</code></a>. This is very useful if you want to integrate external APIs with something like a Google sheet. Here’s how I used it to pull in <a href="/2016/12/22/ad-workflow.html">Facebook advertising data:</a></p><figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">token</span> <span class="o">=</span> <span class="s2">"XXXXX"</span>
 
 <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://graph.facebook.com/v2.8/act_10155507023415075"</span>
 <span class="o">+</span> <span class="s2">"?fields=campaigns%7Bname%2C%20status%2Cinsights.fields(date_start%2Cdate_stop%2Cclicks%2Cimpressions%2Cctr%2Ccpc%2Cspend).date_preset(lifetime)%7D&amp;access_token="</span>
@@ -46,44 +10,4 @@
  <span class="kd">var</span> <span class="nx">dataKey</span> <span class="o">=</span> <span class="nx">parsedResponse</span><span class="p">.</span><span class="nx">campaigns</span><span class="p">.</span><span class="nx">data</span>
  
  <span class="k">return</span> <span class="nx">dataKey</span>
-<span class="p">}</span></code></pre></figure>
-
-
-
-		
-		
-	  <footer>
-	  	<div class="links">
-				<a href="/about/">About</a>
-				<a href id="email">Email</a>
-				<a href="https://www.linkedin.com/in/salomonebaquis">Linkedin</a>
-				<a href="https://github.com/salomoneb/">GitHub</a>
-			</div>
-		</footer>
-		
-
-		<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-77897332-1', 'auto');
-  ga('send', 'pageview');
-</script>
-		<script>
-			// Taken from RJ Ryan: http://www.rustyryan.net/connect/
-			// See also: http://salomonebaquis.com/2017/01/05/email-obfuscation.html
-			function deobfuscate() {
-				var dictionary = [".","q","@",".",".","l","c","m","a","s","u","i","i","l","a","n","b","o","e","g","a","o","m","l","m","o","s"];
-				var letters = [26,8,5,25,24,21,15,18,0,13,3,16,14,1,10,11,9,2,19,7,20,12,23,4,6,17,22];
-				var result = "mailto:";
-				for(var i=0;i<letters.length;i++) {
-					result += dictionary[letters[i]];
-				};
-				document.getElementById("email").setAttribute("href", result);
-			}
-			document.addEventListener("click", deobfuscate)
-		</script>
-	</body>
-</html>
+<span class="p">}</span></code></pre></figure></main><footer><div class="links"> <a href="/about/">About</a> <a href id="email">Email</a> <a href="https://www.linkedin.com/in/salomonebaquis">Linkedin</a> <a href="https://github.com/salomoneb/">GitHub</a></div></footer><script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-77897332-1', 'auto'); ga('send', 'pageview');</script><script> // Taken from RJ Ryan: http://www.rustyryan.net/connect/ // See also: http://salomonebaquis.com/2017/01/05/email-obfuscation.html function deobfuscate() { var dictionary = [".","q","@",".",".","l","c","m","a","s","u","i","i","l","a","n","b","o","e","g","a","o","m","l","m","o","s"]; var letters = [26,8,5,25,24,21,15,18,0,13,3,16,14,1,10,11,9,2,19,7,20,12,23,4,6,17,22]; var result = "mailto:"; for(var i=0;i<letters.length;i++) { result += dictionary[letters[i]]; }; document.getElementById("email").setAttribute("href", result); } document.addEventListener("click", deobfuscate)</script></body></html>

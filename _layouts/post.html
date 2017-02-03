@@ -1,5 +1,5 @@
 ---
 layout: default
 ---
-<div class="date"><span>{{page.date | date: '%B %d, %Y'}}</span></div>
+{% if page.url != "/about/" %}<div class="date"><span>{{page.date | date: '%B %d, %Y'}}</span></div>{% endif %}
 {{content}}
