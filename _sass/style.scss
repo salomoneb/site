@@ -83,9 +83,9 @@ footer {
   }  
 }
 .feed a {
-  color: $dark-text-color;
+  color: $brand-color;
   &:hover {
-    color: $brand-color;
+    color: $dark-text-color;
     opacity: 1;
   }
 }
