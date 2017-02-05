@@ -25,10 +25,13 @@ h1,h2,h3,h4,h5,h6 {
  text-transform: capitalize;
 }
 a {
-  color: $brand-color;
+  color: $dark-text-color;
+  border-bottom: 1px solid #0081e9;
   text-decoration: none;
+  transition: 0.15s;
   &:hover{
-    opacity: 0.8;   
+    color: $brand-color;
+    border-bottom: none;   
   }
 }
 figure {
@@ -84,6 +87,8 @@ footer {
 }
 .feed a {
   color: $brand-color;
+  border-bottom: none;
+  transition: none;
   &:hover {
     color: $dark-text-color;
     opacity: 1;
@@ -96,8 +101,12 @@ footer {
   margin-bottom: 2em;
 }
 .links a {
-  margin-right: 1em;
   color: $light-text-color;
+  border-bottom: none;
+  margin-right: 1em;
+  &:hover {
+    opacity: 0.8;
+  }
 }
 .home-links a {
   font-size: $home-font-size;
