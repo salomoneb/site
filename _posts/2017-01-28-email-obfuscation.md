@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "A Better Way To Hide Your Email Address"
+description: "Beat the spambots"
 date: 2017-01-28
 ---
 

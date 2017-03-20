@@ -7,8 +7,8 @@
 	  <link rel="stylesheet" href="/css/main.css">
 	  <meta property="og:locale" content="en_us">
 	  <meta property="og:type" content="article">
-	  <meta property="og:title" content="A Better Way To Hide Your Email Address - Salomone Baquis">
-	  <meta property="og:description" content="Salomone Baquis is a project manager in Washington, DC.">
+	  <meta property="og:title" content="A Better Way To Hide Your Email Address">
+	  <meta property="og:description" content="Beat the spambots">
 	  <meta property="og:url" content="http://localhost:4000/2017/01/28/email-obfuscation.html">
 	  <meta property="og:site_name" content="Salomone Baquis">
 	</head>
@@ -138,6 +138,10 @@ Since <code class="highlighter-rouge">letters</code> consists of numbers, the <c
 				emailLink.setAttribute("href", result);
 			}
 			emailLink.addEventListener("click", deobfuscate)
+			with ((console && console._commandLineAPI) || {}) {
+			  Object.defineProperty(console, '_commandLineAPI',
+   				{ get : function() { throw 'Nooo!' } })
+			}
 		</script>
 	</body>
 </html>

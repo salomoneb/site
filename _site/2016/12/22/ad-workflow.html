@@ -7,7 +7,7 @@
 	  <link rel="stylesheet" href="/css/main.css">
 	  <meta property="og:locale" content="en_us">
 	  <meta property="og:type" content="article">
-	  <meta property="og:title" content="Creating An Automated Ad Workflow With Google Scripts - Salomone Baquis">
+	  <meta property="og:title" content="Creating An Automated Ad Workflow With Google Scripts">
 	  <meta property="og:description" content="Salomone Baquis is a project manager in Washington, DC.">
 	  <meta property="og:url" content="http://localhost:4000/2016/12/22/ad-workflow.html">
 	  <meta property="og:site_name" content="Salomone Baquis">
@@ -19,7 +19,7 @@
 l11.498-11.498c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414L21.12,27l11.293,11.293c0.391,0.391,0.391,1.023,0,1.414C32.218,39.902,31.962,40,31.706,40z"/></g></svg></a>
 	  </header>
 	  <div class="date"><span>December 22, 2016</span></div>
-<p>It feels a little silly to evangelize Google, one of the largest, richest companies in the world and a soulless, monolithic enterprise if ever there was one, but I’ll come right out and say it: the Google Docs suite is really, really cool.</p>
+<p>It feels a little silly to evangelize Google, one of the largest, richest companies in the world and a soulless, monolithic enterprise if ever there was one, but I’ll come right out and say it: the Google Docs suite is really cool.</p>
 
 <p>Beyond the basic fact that you get to seamlessly collaborate with people in real-time, the functionality is exceptional; simple enough for anyone to use, but with enough APIs, documentation, and developer support to create fully-fledged custom software.</p>
 
@@ -90,6 +90,10 @@ l11.498-11.498c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414L21.12,27l11.2
 				emailLink.setAttribute("href", result);
 			}
 			emailLink.addEventListener("click", deobfuscate)
+			with ((console && console._commandLineAPI) || {}) {
+			  Object.defineProperty(console, '_commandLineAPI',
+   				{ get : function() { throw 'Nooo!' } })
+			}
 		</script>
 	</body>
 </html>

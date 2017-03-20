@@ -5,7 +5,7 @@ permalink: /about/
 ---
 My name is Salomone Baquis, pronounced like *sol-uh-min bah-kweese*. 
 
-I'm a project manager based in Washington, DC. Previously, I worked at [Beekeeper Group](http://www.beekeepergroup.com), where I helped build websites and digital tools for advocacy campaigns. 
+I curently work at [Phone2Action](http://phone2action.com/), where I help people use our platform to contact elected officials. Previously, I developed digital advocacy tools and campaigns at [Beekeeper Group](http://www.beekeepergroup.com).
 
 Some of my interests include [running](https://www.youtube.com/watch?v=5LHid-nC45k), [music](https://www.youtube.com/watch?v=AhF1cc7nCyg), and [technology](https://github.com/salomoneb).
 

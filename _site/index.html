@@ -64,6 +64,10 @@
 				emailLink.setAttribute("href", result);
 			}
 			emailLink.addEventListener("click", deobfuscate)
+			with ((console && console._commandLineAPI) || {}) {
+			  Object.defineProperty(console, '_commandLineAPI',
+   				{ get : function() { throw 'Nooo!' } })
+			}
 		</script>
 	</body>
 </html>
