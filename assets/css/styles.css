@@ -26,7 +26,7 @@ a {
 	border: 1px solid #000;
 	margin-top: -10%;
 	padding: 0.5em 1em;
-	width: 55%;
+	width: 50%;
 }
 .name {
 	font-style: italic;
@@ -40,11 +40,12 @@ a {
 	}
 	body {
 		display: block;
+		margin: 0 1em;
 	}
 	.main {
 		border: none;
 		margin: 0;
-		padding: 1em;
+		padding: 0;
 		width: 100%
 	}
 }
