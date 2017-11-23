@@ -1,8 +1,22 @@
----
-layout: default
----
-<section class="feed">
-{% for post in site.posts %}
-	<h3><a href="{{post.url}}">{{post.title}}</a></h3>
-{% endfor %}
-</section>
+<!DOCTYPE html>
+<html>
+	<head>
+	  <meta charset="utf-8">
+	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	  <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">	
+	  <meta name="description" content="Salomone Baquis is a web developer">
+	  <title>Salomone Baquis</title>
+	</head>
+	<body>
+		<main class="main">
+			<h1>Salomone Baquis</h1>
+			<hr>
+			<p>I'm a software engineer currently based in Washington, D.C. Some things I enjoy include running, music, and <a href="https://www.youtube.com/watch?v=eE6QzDrT_x8">this joke</a>. My name is pronounced like <span class="name">sol-uh-min bah-kweese</span>.</p>
+			<p>I currently work at <a href="https://phone2action.com/">Phone2Action</a>, where I create custom designs, applications, and data solutions for our clients and internal teams.</p>
+			<p>Some side projects I've worked on recently include a <a href="https://github.com/salomoneb/slack-oncall">Slack integration</a>, <a href="https://leg-lookup.herokuapp.com/">a legislator lookup tool</a>, and a <a href="https://gist.github.com/salomoneb/dda1f724bce7a67a2caf287962a4f833">script to gather historical information</a> from our chat system.</p>
+			<p class="links"><a href id="email">Email </a>|<a href="https://github.com/salomoneb"> Github </a>|<a href="https://www.linkedin.com/in/salomonebaquis"> LinkedIn</a></p>
+		</main>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>
