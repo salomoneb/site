@@ -1,7 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Merriweather");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
 html, body {
-	background: #eee;
+	background: #ccc;
 	height: 100%;
 }
 body {
