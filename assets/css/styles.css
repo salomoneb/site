@@ -42,6 +42,9 @@ a {
 		display: block;
 		margin: 0 1em;
 	}
+	hr {
+		display: none;
+	}
 	.main {
 		border: none;
 		margin: 0;
