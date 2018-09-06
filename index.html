@@ -6,11 +6,12 @@
 	  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	  <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
 	  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-	  <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+	  <link rel="stylesheet" type="text/css" href="./assets/css/styles.css">
 	  <meta name="viewport" content="width=device-width, initial-scale=1">	
 	  <meta name="description" content="Salomone Baquis is a web developer in Washington, DC.">
 	  <title>Salomone Baquis</title>
 	  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77897332-1"></script>
+	  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js"></script>
 	  <script>
 		  window.dataLayer = window.dataLayer || []
 		  function gtag(){dataLayer.push(arguments)}
@@ -18,15 +19,17 @@
 		  gtag('config', 'UA-77897332-1')
 		</script>
 	</head>
-	<body>
+	<body>		
 		<main class="main">
 			<h1>Salomone Baquis</h1>
-			<hr>
+			<!-- <hr> -->
 			<p>I'm a web developer based in Washington, D.C. My name is pronounced like <span class="name">sol-uh-min bah-kweese</span>. I enjoy running, most music, and <a href="https://www.youtube.com/watch?v=eE6QzDrT_x8">this joke</a>.</p>
 			<p>I currently work at <a href="https://phone2action.com/">Phone2Action</a>, where I help develop our platform's look and feel.</p>
 			<p>Get in touch:</p>
-			<p><a href id="email">Email </a>|<a href="https://github.com/salomoneb"> Github </a>|<a href="https://www.linkedin.com/in/salomonebaquis"> LinkedIn</a></p>
+			<p><a href id="email">Email</a> | <a href="https://github.com/salomoneb">Github</a> | <a href="https://www.linkedin.com/in/salomonebaquis"> LinkedIn</a></p>
 		</main>
-		<script src="assets/js/main.js"></script>
+		<svg id="grid"></svg>
+		<script src="./assets/js/main.js"></script>
+		<script src="./assets/js/grid.js"></script>
 	</body>
 </html>

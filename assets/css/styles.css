@@ -1,50 +1,40 @@
-html, body {
-	background: #ccc;
-	height: 100%;
-}
 body {
-	align-items: center;
-	display: flex;	
-	font-family: 'Open Sans', sans-serif;
-	font-size: 14px;
-	justify-content: center;
 	margin: 0;
-	text-rendering: optimizeLegibility;
 }
-h1 {
-	font-family: "Merriweather", serif;
+h1 { 
+	font-family: "Merriweather";
+}
+p {
+	font-family: "Open Sans";
 }
 a {
-	color: #339eff;
+	border-bottom: 2px dashed;
+	color: currentColor;
 	text-decoration: none;
 }
-.main	{
-	background: #fff;
-	border-radius: 0.5em;
-	border: 1px solid #000;
-	box-shadow: 4px 4px 4px 2px #b2b2b2;
-	padding: 0.5em 1em;
-	width: 50%;
+.main {
+	bottom: 4rem;
+	left: 4rem;
+	position: absolute;
+	width: 45rem;
+	z-index: 1;
 }
-.name {
-	font-style: italic;
+#grid {
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: -1;
 }
-@media screen and (max-width: 48rem) {
-	html,body {
-		background: #fff;
-	}
+@media screen and (max-width: 768px) {
 	body {
-		display: block;
-		margin: 2em 1em 0;
-	}
-	hr {
-		display: none;
+		margin: .5rem;
 	}
 	.main {
-		border: none;
-		box-shadow: none;
-		margin: 0;
-		padding: 0;
-		width: 100%
+		position: relative;
+		left: 0;
+		top: 0;
+		width: 100%;
 	}
 }
