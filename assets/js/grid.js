@@ -83,7 +83,7 @@ function getGridBoundaries(gridData) {
 const gridBoundaries = getGridBoundaries(gridData)
 
 function createParticleData() {
-	// Create an filtered, flattened array of square coordinates
+	// Create a filtered, flattened array of square coordinates
 	// then reduce to a single object
 	const filteredData = gridData.map(row => {
 		row = row.filter(data => {
