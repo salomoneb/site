@@ -130,8 +130,7 @@ function createColor() {
 	return `hsl(${hue}, 80%, 45%)`
 }
 
-function createTimeInterval(min, max) {
-	console.log(Math.floor(Math.random() * (max - min + 1) + min))
+function createTimeInterval(min, max) {	
 	return Math.floor(Math.random() * (max - min + 1) + min)
 }
 function selectTimeInterval(delay) {
