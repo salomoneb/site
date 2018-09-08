@@ -1,5 +1,15 @@
 console.log("%c👋", "font-size:x-large")
-/* Taken from RJ Ryan: http://www.rustyryan.net/connect/ */
+
+function createColor() {
+	const hue = Math.round(Math.random() * 360)
+	return `hsl(${hue}, 80%, 65%)`
+}
+
+document.querySelectorAll("a").forEach(function(link) {
+	link.style.borderBottomColor = createColor()
+})
+
+// Shamelessly stolen from RJ Ryan: http://www.rustyryan.net/connect/
 const emailLink = document.getElementById("email")
 emailLink.addEventListener("click", deobfuscate)
 function deobfuscate() {

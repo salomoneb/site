@@ -8,7 +8,7 @@ p {
 	font-family: "Open Sans";
 }
 a {
-	border-bottom: 2px dashed;
+	border-bottom: 3px dashed;
 	color: currentColor;
 	text-decoration: none;
 }

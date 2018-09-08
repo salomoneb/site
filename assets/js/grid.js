@@ -1,11 +1,7 @@
 const viewportWidth = window.innerWidth
 const viewportHeight = window.innerHeight
-const animationDuration = 1000
-
+const animationDuration = 3000
 const color = createColor()
-document.querySelectorAll("a").forEach(function(link) {
-	link.style.borderBottomColor = color
-})
 
 const cellDimensions = function() {
 	return {
@@ -16,9 +12,9 @@ const cellDimensions = function() {
 
 function createGridData() {
 	const data = []
-	let { cellHeight, cellWidth } = cellDimensions()
+	const { cellHeight, cellWidth } = cellDimensions()
 
-	const rows = Math.ceil(viewportHeight / cellHeight)
+	const rows = Math.ceil(viewportHeight / cellHeight )
 	const columns = Math.ceil(viewportWidth / cellWidth)	
 
 	let xPos = 1
@@ -55,10 +51,9 @@ const row = grid.selectAll(".row")
 	.enter().append("g")
 	.attr("class", "row")	
 
+// Make the squares
 const square = row.selectAll(".square")
-	.data(function(d) { 
-		return d 
-	})
+	.data(function(d) { return d })
 	.enter().append("rect")
 	.attr("class", "square")
 	.attr("x", function(d) { return d.x })
@@ -84,7 +79,7 @@ const gridBoundaries = getGridBoundaries(gridData)
 
 function createParticleData() {
 	// Create a filtered, flattened array of square coordinates
-	// then reduce to a single object
+	// and reduce to a single object
 	const filteredData = gridData.map(row => {
 		row = row.filter(data => {
 			return data.x === gridBoundaries.minX 
@@ -102,65 +97,71 @@ function createParticleData() {
 	return [filteredData[Math.floor(Math.random() * filteredData.length)]]
 }	
 
+// Get the key that we'll use to calculate the transform
+function getTransformKey(x,y,middle) {
+	const keyObj = {
+		[`${y === gridBoundaries.minY}`]: "top",
+		[`${y === gridBoundaries.maxY}`]: "bottom",
+		[`${x === gridBoundaries.minX && middle}`]: "middleLeft",
+		[`${x === gridBoundaries.maxX && middle}`]: "middleRight"
+	}	
+	return keyObj[true]
+}
+
+// Return a string that we'll use to translate the shape
 function calculateTransform(x,y) {	
 	const { cellHeight, cellWidth } = cellDimensions()
+	const middleRow = y > gridBoundaries.minY && y < gridBoundaries.maxY
+	let key = getTransformKey(x,y,middleRow)
 
-	if (y === gridBoundaries.minY) { // Top row
-		return `translate(0, ${viewportHeight})`
-	}	
-	if (y === gridBoundaries.maxY) { // Bottom row
-		return `translate(0, -${viewportHeight + cellHeight})`
-	}	
-	if (x === gridBoundaries.minX && (y > gridBoundaries.minY && y < gridBoundaries.maxY)) { // Left side middle
-		return `translate(${viewportWidth}, 0)`
-	}	
-	if (x === gridBoundaries.maxX && (y > gridBoundaries.minY && y < gridBoundaries.maxY)) { // Right side middle
-		return `translate(-${viewportWidth}, 0)`
+	const boardLocations = {
+		top: `0, ${viewportHeight + cellHeight}`, 
+		bottom: `0, -${viewportHeight + cellHeight}`,
+		middleLeft: `${viewportWidth + cellWidth}, 0`,
+		middleRight: `-${viewportWidth}, 0`
 	}
+
+	return `translate(${boardLocations[key]})`
 }
 
-function shapeAttrs() {
-	return {
-		radius: 12
-	}
-}
-
-function createColor() {
-	const hue = Math.round(Math.random() * 360)
-	return `hsl(${hue}, 80%, 45%)`
-}
-
-function createTimeInterval(min, max) {	
-	return Math.floor(Math.random() * (max - min + 1) + min)
-}
-function selectTimeInterval(delay) {
-	return Math.ceil(Math.random() * createTimeInterval(delay * 2, delay * 20))
-}
-
-function createParticles(elapsed) {
-	const particleData = createParticleData()
-	const circleAttrs = shapeAttrs()
-	const color = createColor()
+function createParticles() {
+	const particleData = createParticleData()	
+	const particleColor = createColor()
 	const { cellHeight, cellWidth } = cellDimensions()
 
 	const circle = grid.selectAll(".particle")
 		.data(particleData)
 		.enter().append("circle")
 		.attr("cx", function(d) { return d.x })
-		.attr("cy", function(d) {
-			if (d.y === gridBoundaries.maxY) { return d.y + cellHeight }
-			if (d.x === gridBoundaries.maxX) { return d.x + cellWidth }
-			return d.y
-		})
-		.attr("r", function(d) { return circleAttrs.radius })		
-		.attr("fill", color)
-		.attr("stroke", color)
+		.attr("cy", function(d) { return d.y })
+		.attr("r", getNumberInRange(5, 30))
+		.attr("fill", particleColor)
+		.attr("stroke", particleColor)
 		.transition()
 		.ease(d3.easeLinear)
-		.attr("transform", function(d) { return calculateTransform(d.x, d.y) })
-		.duration(animationDuration)
+		.attr("transform", function(d) { return calculateTransform(d.x, d.y) })		
+		.duration(animationDuration)		
 	
-	circle.remove()		
+	circle.remove()	
 }
 
-d3.interval(createParticles, selectTimeInterval(animationDuration))
+function getNumberInRange(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function runAnimation(delay) {	
+	let previousTime = performance.now()
+
+	function animateParticles(currentTime, delay) {
+		currentTime = currentTime || 0
+		delay = delay || getNumberInRange(animationDuration * .8, animationDuration * 5)
+		const delta = currentTime - previousTime
+		if (delta >= delay) {				
+			previousTime = currentTime
+			createParticles()
+		}
+		window.requestAnimationFrame(animateParticles)
+	}
+	animateParticles()
+}
+runAnimation(getNumberInRange(1000, 3000))
