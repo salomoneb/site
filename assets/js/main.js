@@ -4,9 +4,9 @@ function createColor() {
 	const hue = Math.round(Math.random() * 360)
 	return `hsl(${hue}, 80%, 65%)`
 }
-
+const linkColor = createColor()
 document.querySelectorAll("a").forEach(function(link) {
-	link.style.borderBottomColor = createColor()
+	link.style.borderBottomColor = linkColor
 })
 
 // Shamelessly stolen from RJ Ryan: http://www.rustyryan.net/connect/
