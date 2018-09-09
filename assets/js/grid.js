@@ -149,14 +149,14 @@ function getNumberInRange(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function runAnimation(delay) {	
+function runAnimation() {	
 	let previousTime = performance.now()
 
-	function animateParticles(currentTime, delay) {
-		currentTime = currentTime || 0
-		delay = delay || getNumberInRange(animationDuration * .8, animationDuration * 5)
+	function animateParticles(currentTime) {		
+		const delay = getNumberInRange(animationDuration * 2, animationDuration * 7)
 		const delta = currentTime - previousTime
-		if (delta >= delay) {				
+		if (delta >= delay) {		
+			console.log(delay)		
 			previousTime = currentTime
 			createParticles()
 		}
@@ -164,4 +164,4 @@ function runAnimation(delay) {
 	}
 	animateParticles()
 }
-runAnimation(getNumberInRange(1000, 3000))
+runAnimation()
