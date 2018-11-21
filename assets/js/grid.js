@@ -15,7 +15,7 @@ function createGridData() {
 	const { cellHeight, cellWidth } = cellDimensions()
 
 	const rows = Math.ceil(viewportHeight / cellHeight )
-	const columns = Math.ceil(viewportWidth / cellWidth)	
+	const columns = Math.ceil(viewportWidth / cellWidth)
 
 	let xPos = 1
 	let yPos = 1
@@ -24,9 +24,9 @@ function createGridData() {
 		data.push([])
 		for (let j = 0; j < columns; j++) {
 			let square = {
-				x: xPos, 
+				x: xPos,
 				y: yPos,
-				cellWidth: cellWidth, 
+				cellWidth: cellWidth,
 				cellHeight: cellHeight
 			}
 			data[i].push(square)
@@ -34,7 +34,7 @@ function createGridData() {
 		}
 		xPos = 1
 		yPos += cellHeight
-	}		
+	}
 	return data
 }
 
@@ -49,7 +49,7 @@ const grid = d3.select("#grid")
 const row = grid.selectAll(".row")
 	.data(gridData)
 	.enter().append("g")
-	.attr("class", "row")	
+	.attr("class", "row")
 
 // Make the squares
 const square = row.selectAll(".square")
@@ -57,11 +57,11 @@ const square = row.selectAll(".square")
 	.enter().append("rect")
 	.attr("class", "square")
 	.attr("x", function(d) { return d.x })
-	.attr("y", function(d) { return d.y })	
+	.attr("y", function(d) { return d.y })
 	.attr("width", function(d) { return d.cellWidth })
 	.attr("height", function(d) { return d.cellHeight })
 	.style("fill", "transparent")
-	.style("stroke", "#eee")	
+	.style("stroke", "#eee")
 
 // Get the max and min coordinate values on the board
 function getGridBoundaries(gridData) {
@@ -82,10 +82,10 @@ function createParticleData() {
 	// and reduce to a single object
 	const filteredData = gridData.map(row => {
 		row = row.filter(data => {
-			return data.x === gridBoundaries.minX 
-				|| data.x === gridBoundaries.maxX 
-				|| data.y === gridBoundaries.minY 
-				||  data.y === gridBoundaries.maxY
+			return data.x === gridBoundaries.minX ||
+				data.x === gridBoundaries.maxX ||
+				data.y === gridBoundaries.minY ||
+				data.y === gridBoundaries.maxY
 		})
 		return row.map(square => {
 			return { x: square.x, y: square.y }
@@ -93,9 +93,9 @@ function createParticleData() {
 	})
 	.reduce((accumulator, currentValue) => {
 		return accumulator.concat(currentValue)
-	})	
+	})
 	return [filteredData[Math.floor(Math.random() * filteredData.length)]]
-}	
+}
 
 // Get the key that we'll use to calculate the transform
 function getTransformKey(x,y,middle) {
@@ -104,28 +104,27 @@ function getTransformKey(x,y,middle) {
 		[`${y === gridBoundaries.maxY}`]: "bottom",
 		[`${x === gridBoundaries.minX && middle}`]: "middleLeft",
 		[`${x === gridBoundaries.maxX && middle}`]: "middleRight"
-	}	
+	}
 	return keyObj[true]
 }
 
 // Return a string that we'll use to translate the shape
-function calculateTransform(x,y) {	
+function calculateTransform(x,y) {
 	const { cellHeight, cellWidth } = cellDimensions()
 	const middleRow = y > gridBoundaries.minY && y < gridBoundaries.maxY
 	let key = getTransformKey(x,y,middleRow)
 
 	const boardLocations = {
-		top: `0, ${viewportHeight + cellHeight}`, 
-		bottom: `0, -${viewportHeight + cellHeight}`,
+		top: `0, ${viewportHeight + cellHeight}`,
+		bottom: `0, -${viewportHeight + cellHeight * 2}`,
 		middleLeft: `${viewportWidth + cellWidth}, 0`,
 		middleRight: `-${viewportWidth}, 0`
 	}
-
 	return `translate(${boardLocations[key]})`
 }
 
 function createParticles() {
-	const particleData = createParticleData()	
+	const particleData = createParticleData()
 	const particleColor = createColor()
 	const { cellHeight, cellWidth } = cellDimensions()
 
@@ -139,24 +138,23 @@ function createParticles() {
 		.attr("stroke", particleColor)
 		.transition()
 		.ease(d3.easeLinear)
-		.attr("transform", function(d) { return calculateTransform(d.x, d.y) })		
-		.duration(animationDuration)		
-	
-	circle.remove()	
+		.attr("transform", function(d) { return calculateTransform(d.x, d.y) })
+		.duration(animationDuration)
+
+	circle.remove()
 }
 
 function getNumberInRange(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function runAnimation() {	
+function runAnimation() {
 	let previousTime = performance.now()
 
-	function animateParticles(currentTime) {		
-		const delay = getNumberInRange(animationDuration * 2, animationDuration * 7)
+	function animateParticles(currentTime) {
+		const delay = getNumberInRange(animationDuration * 1.2, animationDuration * 7)
 		const delta = currentTime - previousTime
-		if (delta >= delay) {		
-			console.log(delay)		
+		if (delta >= delay) {
 			previousTime = currentTime
 			createParticles()
 		}
