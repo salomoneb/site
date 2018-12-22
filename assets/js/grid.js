@@ -5,6 +5,7 @@ var coords
 var gridCanvas = document.querySelector("#grid")
 var circleCanvas = initCircleCanvas()
 var circleCtx = circleCanvas.getContext("2d")
+var circleData
 
 init()
 
@@ -18,6 +19,7 @@ function init() {
 		canvas.setAttribute("height", windowHeight)
 	})	
 	drawGrid(generateCoords)
+	getCircleData(test)
 }
 
 function generateCoords() { // Create coordinate board
@@ -58,47 +60,32 @@ function drawGrid(generateCoords) {
 		ctx.closePath()
 	})
 }
-
-function getCircleData() {
+function getCircleData(callback) {
 	var data = coords[Math.floor(Math.random() * coords.length)]
 	var circle = data.d === "horizontal" 
-		? { x: data.x, y: data.y, target: data.xt } 
-		: { x: data.x, y: data.y, target: data.yt }
+		? { x: data.x, y: data.y, target: data.xt, direction: "horizontal", start: "x" } 
+		: { x: data.x, y: data.y, target: data.yt, direction: "vertical", start: "y" }
 	
-	circle.r = Math.ceil(Math.random() * 30)
-	return circle
+	circle.r = Math.floor(Math.random() * (50 - 10 + 1) + 10);
+	circleData = circle
+	callback()
 }
-console.log(getCircleData())
-
-// var circleCtx = circleCanvas.getContext("2d")
-// test()
-	// var start = 100
-	// var end = window.innerWidth	+ cellWidth
-
-// test()
-function test() {
-	if (start < end) {		
-		circleCtx.clearRect(0, 0, circleCanvas.width, circleCanvas.height)
-		circleCtx.fillStyle = "rgba(0, 255, 255, 0.4)";
-		circleCtx.beginPath();	
-		circleCtx.arc(start, 200, 50, 0, 2 * Math.PI)
-		circleCtx.fill();
-		circleCtx.closePath();
-		start+=8
-		console.log(start)	
+function test() {	
+	if (circleData[circleData.start] < circleData.target) {	
+		drawCircle()
 		requestAnimationFrame(test)
 	}
 }
 
-function drawCircle(x) {	
-	console.log(x)
+function drawCircle() {	
 	circleCtx.clearRect(0, 0, circleCanvas.width, circleCanvas.height)
-	circleCtx.fillStyle = "blue";
+	circleCtx.fillStyle = "rgba(0, 255, 255, 0.4)";
 	circleCtx.beginPath();	
-	circleCtx.arc(x, 200, 50, 0, 2 * Math.PI)
+	circleCtx.arc(circleData.x, circleData.y, circleData.r, 0, 2 * Math.PI)
 	circleCtx.fill();
-	circleCtx.closePath();	
-	console.log(x)
+	circleCtx.closePath();
+	circleData[circleData.start]+=8
+	console.log(circleData)
 }
 
 // function animate(x,y,r,target,ctx, canvas, callback) {
