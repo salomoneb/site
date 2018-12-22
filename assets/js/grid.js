@@ -1,30 +1,27 @@
 var cellHeight = 100
 var cellWidth = 100
-var windowWidth = window.innerWidth
-var windowHeight = window.innerHeight
+var windowWidth, windowHeight
 var coords
 var gridCanvas = document.querySelector("#grid")
 var circleCanvas = initCircleCanvas()
+var circleCtx = circleCanvas.getContext("2d")
 
 init()
 
-window.addEventListener("resize", function() {
+window.addEventListener("resize", init)
+
+function init() {
 	windowWidth = window.innerWidth
 	windowHeight = window.innerHeight	
-	init()
-})
-
-function init() {	
-	[gridCanvas, circleCanvas].forEach(canvas => {
+	;[gridCanvas, circleCanvas].forEach(canvas => {
 		canvas.setAttribute("width", windowWidth)
 		canvas.setAttribute("height", windowHeight)
-	})
-	coords = generateCoords(windowWidth, windowHeight)
-	drawGrid(coords)
+	})	
+	drawGrid(generateCoords)
 }
 
 function generateCoords() { // Create coordinate board
-	var coords = []
+	coords = []
 	for (let i = 0; i < windowWidth; i++) {
 		if (i % cellWidth === 0) {
 			coords.push({ x: i, y: 0, xt: i, yt: windowHeight, d: "vertical" })
@@ -35,7 +32,6 @@ function generateCoords() { // Create coordinate board
 			coords.push({ x: 0, y: i, xt: windowWidth, yt: i, d: "horizontal" })
 		}
 	}
-	console.log(coords)
 	return coords
 }
 
@@ -47,7 +43,8 @@ function initCircleCanvas() { // Create + append circle canvas
 	return circleCanvas
 }
 
-function drawGrid(coords) {
+function drawGrid(generateCoords) {
+	coords = generateCoords()
 	var ctx = gridCanvas.getContext("2d")
 
 	ctx.lineWidth = 0.4
@@ -62,22 +59,16 @@ function drawGrid(coords) {
 	})
 }
 
-
-var target = window.innerWidth
-
-function animate(start, target, ctx, canvas) {
-	if (start < target) {
-		requestAnimationFrame(animate)
-		drawCircle(start,y,50,ctx,canvas)
-		start++
-		console.log("going")
-	}	
+function getCircleData() {
+	var data = coords[Math.floor(Math.random() * coords.length)]
+	var circle = data.d === "horizontal" 
+		? { x: data.x, y: data.y, target: data.xt } 
+		: { x: data.x, y: data.y, target: data.yt }
+	
+	circle.r = Math.ceil(Math.random() * 30)
+	return circle
 }
-
-
-
-
-
+console.log(getCircleData())
 
 // var circleCtx = circleCanvas.getContext("2d")
 // test()
