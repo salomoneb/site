@@ -2,38 +2,137 @@ var cellHeight = 100
 var cellWidth = 100
 var windowWidth = window.innerWidth
 var windowHeight = window.innerHeight
-var coords = []
+var coords
+var gridCanvas = document.querySelector("#grid")
+var circleCanvas = initCircleCanvas()
 
-var canvas = document.querySelector("canvas")
-canvas.setAttribute("height", windowHeight)
-canvas.setAttribute("width", windowWidth)
+init()
 
-for (let i = 0; i < windowWidth; i++) {
-	if (i % cellWidth === 0) {
-		coords.push({ x: i, y: 0, xt: i, yt: windowHeight })
+window.addEventListener("resize", function() {
+	windowWidth = window.innerWidth
+	windowHeight = window.innerHeight	
+	init()
+})
+
+function init() {	
+	[gridCanvas, circleCanvas].forEach(canvas => {
+		canvas.setAttribute("width", windowWidth)
+		canvas.setAttribute("height", windowHeight)
+	})
+	coords = generateCoords(windowWidth, windowHeight)
+	drawGrid(coords)
+}
+
+function generateCoords() { // Create coordinate board
+	var coords = []
+	for (let i = 0; i < windowWidth; i++) {
+		if (i % cellWidth === 0) {
+			coords.push({ x: i, y: 0, xt: i, yt: windowHeight, d: "vertical" })
+		}
+	}
+	for (let i = 0; i < windowHeight; i++) {
+		if (i % cellHeight === 0) {
+			coords.push({ x: 0, y: i, xt: windowWidth, yt: i, d: "horizontal" })
+		}
+	}
+	console.log(coords)
+	return coords
+}
+
+function initCircleCanvas() { // Create + append circle canvas
+	if (document.querySelector("#circle")) document.querySelector("#circle").remove()
+	var circleCanvas = document.createElement("canvas")
+	circleCanvas.setAttribute("id", "circle")
+	document.querySelector("body").insertBefore(circleCanvas, document.querySelector("main"))
+	return circleCanvas
+}
+
+function drawGrid(coords) {
+	var ctx = gridCanvas.getContext("2d")
+
+	ctx.lineWidth = 0.4
+	ctx.strokeStyle = "rgb(202,202,202)"
+
+	coords.forEach(coord => {
+		ctx.beginPath()
+		ctx.moveTo(coord.x, coord.y)
+		ctx.lineTo(coord.xt, coord.yt)
+		ctx.stroke()
+		ctx.closePath()
+	})
+}
+
+
+var target = window.innerWidth
+
+function animate(start, target, ctx, canvas) {
+	if (start < target) {
+		requestAnimationFrame(animate)
+		drawCircle(start,y,50,ctx,canvas)
+		start++
+		console.log("going")
+	}	
+}
+
+
+
+
+
+
+// var circleCtx = circleCanvas.getContext("2d")
+// test()
+	// var start = 100
+	// var end = window.innerWidth	+ cellWidth
+
+// test()
+function test() {
+	if (start < end) {		
+		circleCtx.clearRect(0, 0, circleCanvas.width, circleCanvas.height)
+		circleCtx.fillStyle = "rgba(0, 255, 255, 0.4)";
+		circleCtx.beginPath();	
+		circleCtx.arc(start, 200, 50, 0, 2 * Math.PI)
+		circleCtx.fill();
+		circleCtx.closePath();
+		start+=8
+		console.log(start)	
+		requestAnimationFrame(test)
 	}
 }
 
-for (let i = 0; i < windowHeight; i++) {
-	if (i % cellHeight === 0) {
-		coords.push({ x: 0, y: i, xt: windowWidth, yt: i })
-	}
+function drawCircle(x) {	
+	console.log(x)
+	circleCtx.clearRect(0, 0, circleCanvas.width, circleCanvas.height)
+	circleCtx.fillStyle = "blue";
+	circleCtx.beginPath();	
+	circleCtx.arc(x, 200, 50, 0, 2 * Math.PI)
+	circleCtx.fill();
+	circleCtx.closePath();	
+	console.log(x)
 }
 
-var ctx = canvas.getContext("2d")
+// function animate(x,y,r,target,ctx, canvas, callback) {
+// 	var xPos = x
+// 	var yPos = y
+// 	var radius = r
+// 	var target = target
+// 	var canvas = canvas
+// 	var callback = callback
 
-ctx.lineWidth = 0.4
-ctx.strokeStyle = "rgb(202,202,202)"
-
-for (let i = 0; i < coords.length; i++) {
-	ctx.beginPath()
-	ctx.moveTo(coords[i].x, coords[i].y)
-	ctx.lineTo(coords[i].xt, coords[i].yt)
-	ctx.stroke()
-	ctx.closePath()
-}
-
-
+// 	function callback() {
+// 			ctx.clearRect(0, 0, canvas.width, canvas.height)
+// 			console.log(xPos, yPos)
+// 			drawCircle(xPos, yPos, radius, ctx, canvas)
+// 			x++
+// 			// requestAnimationFrame(function() {
+// 			// 	animate(xPos,yPos,radius,target,ctx, canvas, callback)
+// 			// })
+// 			return
+// 	}	
+// 	if (x < target) {	
+// 		return callback()
+// 	}
+// 	return "blah"
+// }
 
 // var count = 1
 // var end = 20

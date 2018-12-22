@@ -19,7 +19,7 @@ a {
 	width: 45rem;
 	z-index: 1;
 }
-#grid {
+canvas {
 	height: 100%;
 	left: 0;
 	position: absolute;
