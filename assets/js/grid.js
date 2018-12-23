@@ -7,7 +7,6 @@ var windowWidth,
 var gridCanvas = document.querySelector("#grid")
 var circleCanvas = initCircleCanvas()
 var circleCtx = circleCanvas.getContext("2d")
-var count = 0
 init()
 runAnimation()
 
@@ -36,7 +35,6 @@ function generateCoords() { // Create coordinate board
 			coords.push({ x: 0, y: i, xt: windowWidth, yt: i, start: "x", target: windowWidth })
 		}
 	}
-	console.log(coords)
 	return coords
 }
 
@@ -80,14 +78,15 @@ function inner(timestamp, start, word) {
 		inner(timestamp, start, word)
     })
 }
-function circleData() {
+function getCircleData() {
 	var circleData = coords[Math.floor(Math.random() * coords.length)]
 	circleData.r = Math.floor(Math.random() * (50 - 10 + 1) + 10)
+	circleData.c = createColor()
 	return circleData	
 }
 
 function runAnimation() {
-	circleData = circleData()
+	circleData = getCircleData()
 	var start = performance.now()
 
 	requestAnimationFrame(function(timestamp) {
@@ -97,13 +96,12 @@ function runAnimation() {
 function animate(timestamp, start, circleData) {
 	drawCircle(circleData)
 	var delta = timestamp - start
-	if (delta > 6000) {
+	if (timestamp - start > 6000) {		
 		start = timestamp
-
 		if (circleData[circleData.start] < circleData.target) {
 			drawCircle(circleData)
 		} else {
-			circleData = circleData()
+			circleData = getCircleData()
 			drawCircle(circleData)
 		}		
 	}
@@ -114,7 +112,7 @@ function animate(timestamp, start, circleData) {
 
 function drawCircle(circleData) {	
 	circleCtx.clearRect(0, 0, circleCanvas.width, circleCanvas.height)
-	circleCtx.fillStyle = "rgba(0, 255, 255, 0.4)";
+	circleCtx.fillStyle = circleData.c
 	circleCtx.beginPath();	
 	circleCtx.arc(circleData.x, circleData.y, circleData.r, 0, 2 * Math.PI)
 	circleCtx.fill();
