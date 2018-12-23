@@ -29,7 +29,7 @@ canvas {
 }
 @media screen and (max-width: 768px) {
 	body {
-		margin: .5rem;
+		margin: 1rem;
 	}
 	.main {
 		position: relative;
