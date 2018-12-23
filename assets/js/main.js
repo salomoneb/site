@@ -2,11 +2,11 @@ console.log("%c👋", "font-size:x-large")
 
 function createColor() {
   const hue = Math.round(Math.random() * 360)
-  return `hsla(${hue}, 80%, 65%, .8)`
+  return `hsla(${hue}, 80%, 65%)`
 }
 const linkColor = createColor()
 document.querySelectorAll("a").forEach(function(link) {
-  link.style.borderBottomColor = linkColor
+  link.style.borderBottomColor = linkColor    
 })
 
 // Stolen from http://www.rustyryan.net/connect/
