@@ -6,7 +6,7 @@ function createColor() {
 }
 const linkColor = createColor()
 document.querySelectorAll("a").forEach(function(link) {
-  link.style.borderBottomColor = linkColor    
+  link.style.borderBottomColor = linkColor
 })
 
 // Stolen from http://www.rustyryan.net/connect/
