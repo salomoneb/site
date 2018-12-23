@@ -19,7 +19,7 @@ a {
 	width: 45rem;
 	z-index: 1;
 }
-#grid {
+canvas {
 	height: 100%;
 	left: 0;
 	position: absolute;
@@ -29,7 +29,7 @@ a {
 }
 @media screen and (max-width: 768px) {
 	body {
-		margin: .5rem;
+		margin: 1rem;
 	}
 	.main {
 		position: relative;

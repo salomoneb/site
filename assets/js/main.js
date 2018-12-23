@@ -2,14 +2,14 @@ console.log("%c👋", "font-size:x-large")
 
 function createColor() {
 	const hue = Math.round(Math.random() * 360)
-	return `hsl(${hue}, 80%, 65%)`
+	return `hsla(${hue}, 80%, 65%, .8)`
 }
 const linkColor = createColor()
 document.querySelectorAll("a").forEach(function(link) {
 	link.style.borderBottomColor = linkColor
 })
 
-// Shamelessly stolen from RJ Ryan: http://www.rustyryan.net/connect/
+// Stolen from http://www.rustyryan.net/connect/
 const emailLink = document.getElementById("email")
 emailLink.addEventListener("click", deobfuscate)
 function deobfuscate() {

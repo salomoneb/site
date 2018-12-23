@@ -1,165 +1,110 @@
-const viewportWidth = window.innerWidth
-const viewportHeight = window.innerHeight
-const animationDuration = 3000
-const color = createColor()
+const commonCellDimension = Math.floor(Math.random() * 100 + 25)
+const cellHeight = commonCellDimension
+const cellWidth = commonCellDimension
+let windowWidth, 
+		windowHeight,
+		coords
+const gridCanvas = document.querySelector("#grid")
+const circleCanvas = initCircleCanvas()
+const circleCtx = circleCanvas.getContext("2d")
 
-const cellDimensions = function() {
-	return {
-		cellHeight: 100,
-		cellWidth: 100
-	}
+init()
+runAnimation()
+window.addEventListener("resize", init)
+
+function init() {	
+	windowWidth = window.innerWidth
+	windowHeight = window.innerHeight	
+	;[gridCanvas, circleCanvas].forEach(canvas => {
+		canvas.setAttribute("width", windowWidth)
+		canvas.setAttribute("height", windowHeight)
+	})
+	coords = generateCoords()
+	drawGrid(coords)	
 }
 
-function createGridData() {
-	const data = []
-	const { cellHeight, cellWidth } = cellDimensions()
-
-	const rows = Math.ceil(viewportHeight / cellHeight )
-	const columns = Math.ceil(viewportWidth / cellWidth)
-
-	let xPos = 1
-	let yPos = 1
-
-	for (let i = 0; i < rows; i++) {
-		data.push([])
-		for (let j = 0; j < columns; j++) {
-			let square = {
-				x: xPos,
-				y: yPos,
-				cellWidth: cellWidth,
-				cellHeight: cellHeight
-			}
-			data[i].push(square)
-			xPos += cellWidth
+function generateCoords() { // Create grid coordinates
+	coords = []
+	for (let i = 0; i < windowWidth; i++) {
+		if (i % cellWidth === 0) {
+			coords.push({ x: i, y: 0, xt: i, yt: windowHeight, startKey: "y", target: windowHeight })
 		}
-		xPos = 1
-		yPos += cellHeight
 	}
-	return data
+	for (let i = 0; i < windowHeight; i++) {
+		if (i % cellHeight === 0) {
+			coords.push({ x: 0, y: i, xt: windowWidth, yt: i, startKey: "x", target: windowWidth })
+		}
+	}
+	return coords
 }
 
-const gridData = createGridData()
-
-// Make the grid
-const grid = d3.select("#grid")
-	.attr("width", `${viewportWidth}px`)
-	.attr("height", `${viewportHeight}px`)
-
-// Make the rows
-const row = grid.selectAll(".row")
-	.data(gridData)
-	.enter().append("g")
-	.attr("class", "row")
-
-// Make the squares
-const square = row.selectAll(".square")
-	.data(function(d) { return d })
-	.enter().append("rect")
-	.attr("class", "square")
-	.attr("x", function(d) { return d.x })
-	.attr("y", function(d) { return d.y })
-	.attr("width", function(d) { return d.cellWidth })
-	.attr("height", function(d) { return d.cellHeight })
-	.style("fill", "transparent")
-	.style("stroke", "#eee")
-
-// Get the max and min coordinate values on the board
-function getGridBoundaries(gridData) {
-	const gridDataLength = gridData.length-1
-
-	return {
-		minX: gridData[0][0].x,
-		minY: gridData[0][0].y,
-		maxX: gridData[0][gridData[0].length-1].x,
-		maxY: gridData[gridDataLength][gridData[gridDataLength].length-1].y
-	}
+function initCircleCanvas() { // Create and append circle canvas
+	if (document.querySelector("#circle")) document.querySelector("#circle").remove()
+	const circleCanvas = document.createElement("canvas")
+	circleCanvas.setAttribute("id", "circle")
+	document.querySelector("body").appendChild(circleCanvas)
+	return circleCanvas
 }
 
-const gridBoundaries = getGridBoundaries(gridData)
+function drawGrid(coords) { // Draw the board
+	const ctx = gridCanvas.getContext("2d")
+	ctx.lineWidth = 0.4
+	ctx.strokeStyle = "rgb(202,202,202)"
 
-function createParticleData() {
-	// Create a filtered, flattened array of square coordinates
-	// and reduce to a single object
-	const filteredData = gridData.map(row => {
-		row = row.filter(data => {
-			return data.x === gridBoundaries.minX ||
-				data.x === gridBoundaries.maxX ||
-				data.y === gridBoundaries.minY ||
-				data.y === gridBoundaries.maxY
-		})
-		return row.map(square => {
-			return { x: square.x, y: square.y }
-		})
+	coords.forEach(coord => {
+		ctx.beginPath()
+		ctx.moveTo(coord.x, coord.y)
+		ctx.lineTo(coord.xt, coord.yt)
+		ctx.stroke()
+		ctx.closePath()
 	})
-	.reduce((accumulator, currentValue) => {
-		return accumulator.concat(currentValue)
-	})
-	return [filteredData[Math.floor(Math.random() * filteredData.length)]]
 }
 
-// Get the key that we'll use to calculate the transform
-function getTransformKey(x,y,middle) {
-	const keyObj = {
-		[`${y === gridBoundaries.minY}`]: "top",
-		[`${y === gridBoundaries.maxY}`]: "bottom",
-		[`${x === gridBoundaries.minX && middle}`]: "middleLeft",
-		[`${x === gridBoundaries.maxX && middle}`]: "middleRight"
-	}
-	return keyObj[true]
-}
-
-// Return a string that we'll use to translate the shape
-function calculateTransform(x,y) {
-	const { cellHeight, cellWidth } = cellDimensions()
-	const middleRow = y > gridBoundaries.minY && y < gridBoundaries.maxY
-	let key = getTransformKey(x,y,middleRow)
-
-	const boardLocations = {
-		top: `0, ${viewportHeight + cellHeight}`,
-		bottom: `0, -${viewportHeight + cellHeight * 2}`,
-		middleLeft: `${viewportWidth + cellWidth}, 0`,
-		middleRight: `-${viewportWidth}, 0`
-	}
-	return `translate(${boardLocations[key]})`
-}
-
-function createParticles() {
-	const particleData = createParticleData()
-	const particleColor = createColor()
-	const { cellHeight, cellWidth } = cellDimensions()
-
-	const circle = grid.selectAll(".particle")
-		.data(particleData)
-		.enter().append("circle")
-		.attr("cx", function(d) { return d.x })
-		.attr("cy", function(d) { return d.y })
-		.attr("r", getNumberInRange(5, 30))
-		.attr("fill", particleColor)
-		.attr("stroke", particleColor)
-		.transition()
-		.ease(d3.easeLinear)
-		.attr("transform", function(d) { return calculateTransform(d.x, d.y) })
-		.duration(animationDuration)
-
-	circle.remove()
-}
-
-function getNumberInRange(min, max) {
-	return Math.floor(Math.random() * (max - min + 1) + min);
+function getCircleData() {	// Transform circle data and randomize start and end points
+	let circleData = {...coords[Math.floor(Math.random() * coords.length)]} // Shallow clone our data
+	let startEndPoints = [circleData["startKey"], circleData["startKey"] + "t"]
+	let randStartPointIndex = Math.floor(Math.random() * startEndPoints.length)
+	let startPointKey = startEndPoints.splice(randStartPointIndex, 1)
+	circleData = {
+		...circleData,
+		[circleData["startKey"]]: circleData[startPointKey],
+		[circleData["startKey"] + "t"]: circleData[startEndPoints[0]],
+		target: circleData[startEndPoints[0]],
+		frozenStart: circleData[startPointKey], 
+		r: Math.floor(Math.random() * (40 - 5) + 10),
+		c: createColor()
+	}	
+	return circleData	
 }
 
 function runAnimation() {
-	let previousTime = performance.now()
-
-	function animateParticles(currentTime) {
-		const delay = getNumberInRange(animationDuration * 1.2, animationDuration * 7)
-		const delta = currentTime - previousTime
-		if (delta >= delay) {
-			previousTime = currentTime
-			createParticles()
-		}
-		window.requestAnimationFrame(animateParticles)
-	}
-	animateParticles()
+	circleData = getCircleData()
+	let start = performance.now()
+	let translateDiff
+	requestAnimationFrame(function(timestamp) {
+		animate(timestamp, start, circleData, translateDiff)
+  })
 }
-runAnimation()
+
+function animate(timestamp, start, circleData, translateDiff) {
+	drawCircle(circleData)
+	let delta = timestamp - start
+	if (delta > 6000) {
+		start = timestamp	
+		circleData = getCircleData()
+	}
+	requestAnimationFrame(function(timestamp) {
+		animate(timestamp, start, circleData, translateDiff)
+  })
+}
+
+function drawCircle(circleData) { // Draw the circle
+	translateDiff = circleData.target - circleData.frozenStart 
+	circleCtx.clearRect(0, 0, circleCanvas.width, circleCanvas.height)
+	circleCtx.fillStyle = circleData.c
+	circleCtx.beginPath()
+	circleCtx.arc(circleData.x, circleData.y, circleData.r, 0, 2 * Math.PI)
+	circleCtx.fill()
+	circleCtx.closePath()	
+	translateDiff > 0 ? circleData[circleData.startKey]+=5 : circleData[circleData.startKey]-=5
+}
