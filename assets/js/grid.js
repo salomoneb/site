@@ -5,7 +5,7 @@ let windowWidth,
     windowHeight,
     coords
 const gridCanvas = document.querySelector("#grid")
-const circleCanvas = initCircleCanvas()
+const circleCanvas = document.querySelector("#circle")
 const circleCtx = circleCanvas.getContext("2d")
 
 init()
@@ -36,14 +36,6 @@ function generateCoords() { // Create grid coordinates
     }
   }
   return coords
-}
-
-function initCircleCanvas() { // Create and append circle canvas
-  if (document.querySelector("#circle")) document.querySelector("#circle").remove()
-  const circleCanvas = document.createElement("canvas")
-  circleCanvas.setAttribute("id", "circle")
-  document.querySelector("body").appendChild(circleCanvas)
-  return circleCanvas
 }
 
 function drawGrid(coords) { // Draw the board
