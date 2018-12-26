@@ -1,7 +1,7 @@
-let windowWidth, windowHeight, coords
 const gridCanvas = document.querySelector("#grid")
 const circleCanvas = document.querySelector("#circle")
 const circleCtx = circleCanvas.getContext("2d")
+let windowWidth, windowHeight, coords
 
 init()
 ;["resize", "click"].forEach(event => window.addEventListener(event, init))
@@ -9,8 +9,9 @@ window.addEventListener("touchmove", (event) => event.prevenDefault())
 
 function init() {
   let commonCellDimension = Math.floor(Math.random() * 100 + 25)
-  cellHeight = commonCellDimension
-  cellWidth = commonCellDimension
+  let cellHeight = commonCellDimension
+  let cellWidth = commonCellDimension
+
   windowWidth = window.innerWidth
   windowHeight = window.innerHeight
   ;[gridCanvas, circleCanvas].forEach(canvas => {
@@ -21,7 +22,7 @@ function init() {
   drawGrid(coords, runAnimation)
 }
 
-function generateCoords() { // Create grid coordinates
+function generateCoords(cellWidth, cellHeight) { // Create grid coordinates
   coords = []
   for (let i = 0; i < windowWidth; i++) {
     if (i % cellWidth === 0) {      
