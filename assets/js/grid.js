@@ -1,27 +1,29 @@
-const gridCanvas = document.querySelector("#grid")
-const circleCanvas = document.querySelector("#circle")
-const circleCtx = circleCanvas.getContext("2d")
+const grid = document.querySelector("#grid")
+const circle = document.querySelector("#circle")
+const circleCtx = circle.getContext("2d")
 let windowWidth, windowHeight, coords
 
-init()
 ;["resize", "click"].forEach(event => window.addEventListener(event, init))
 window.addEventListener("touchmove", (event) => event.prevenDefault())
 
-function init() {
-  let commonCellDimension = Math.floor(Math.random() * 100 + 25)
-  let cellHeight = commonCellDimension
-  let cellWidth = commonCellDimension
+init()
+runAnimation()
 
+function init() {
+  const commonCellDimension = Math.floor(Math.random() * 100 + 25)
+  const cellHeight = commonCellDimension
+  const cellWidth = commonCellDimension
   windowWidth = window.innerWidth
   windowHeight = window.innerHeight
-  ;[gridCanvas, circleCanvas].forEach(canvas => {
+  const grid = document.querySelector("#grid")
+
+  ;[grid, circle].forEach(canvas => {
     canvas.setAttribute("width", windowWidth)
     canvas.setAttribute("height", windowHeight)
   })
   coords = generateCoords(cellWidth, cellHeight)
-  drawGrid(coords, runAnimation)
+  drawGrid(coords)
 }
-
 function generateCoords(cellWidth, cellHeight) { // Create grid coordinates
   coords = []
   for (let i = 0; i < windowWidth; i++) {
@@ -44,9 +46,8 @@ function generateCoords(cellWidth, cellHeight) { // Create grid coordinates
   }  
   return coords
 }
-
-function drawGrid(coords, runAnimation) {
-  const ctx = gridCanvas.getContext("2d")
+function drawGrid(coords) {
+  const ctx = grid.getContext("2d")
   ctx.clearRect(0, 0, windowWidth, windowHeight)
   ctx.lineWidth = 0.4
   ctx.strokeStyle = "rgb(202,202,202)"
@@ -58,7 +59,6 @@ function drawGrid(coords, runAnimation) {
     ctx.stroke()
     ctx.closePath()
   })
-  return runAnimation()
 }
 
 function getCircleData() {
@@ -76,9 +76,11 @@ function getCircleData() {
 }
 
 function getStartEndPoints(randomPoint) {
-  let startEndPoints = [randomPoint.start[randomPoint.translateKey], randomPoint.end[randomPoint.translateKey]]
+  let startEndPoints = [
+    randomPoint.start[randomPoint.translateKey], 
+    randomPoint.end[randomPoint.translateKey]
+  ]
   let randomIndex = Math.round(Math.random() * (startEndPoints.length-1))
-
   startEndPoints.push(startEndPoints.splice(randomIndex, 1)[0])
   return startEndPoints  
 }
@@ -105,7 +107,7 @@ function animate(timestamp, start, circleData) {
 
 function drawCircle(circleData) { // Draw the circle
   let translateDiff = circleData.frozenEnd - circleData.frozenStart
-  circleCtx.clearRect(0, 0, circleCanvas.width, circleCanvas.height)
+  circleCtx.clearRect(0, 0, circle.width, circle.height)
   circleCtx.fillStyle = circleData.c
   circleCtx.beginPath()
   circleCtx.arc(circleData.coords[0], circleData.coords[1], circleData.r, 0, 2 * Math.PI)
