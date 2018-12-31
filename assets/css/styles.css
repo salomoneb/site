@@ -12,13 +12,6 @@ a {
 	color: currentColor;
 	text-decoration: none;
 }
-.main {
-	bottom: 4rem;
-	left: 4rem;
-	position: absolute;
-	width: 45rem;
-	z-index: 1;
-}
 canvas {
 	height: 100%;
 	left: 0;
@@ -26,6 +19,16 @@ canvas {
 	top: 0;
 	width: 100%;
 	z-index: -1;
+}
+.main {
+	bottom: 6rem;
+	left: 4rem;
+	position: absolute;
+	width: 45rem;
+	z-index: 1;
+}
+.name {
+	font-style: italic;
 }
 @media screen and (max-width: 768px) {
 	body {

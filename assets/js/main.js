@@ -5,9 +5,8 @@ function createColor() {
   return `hsl(${hue}, 80%, 65%)`
 }
 const linkColor = createColor()
-document.querySelectorAll("a").forEach(function(link) {
-  link.style.borderBottomColor = linkColor
-})
+document.querySelectorAll("a").forEach(link => link.style.borderBottomColor = linkColor)
+
 
 // Stolen from http://www.rustyryan.net/connect/
 const emailLink = document.getElementById("email")
@@ -19,5 +18,5 @@ function deobfuscate() {
   for(var i=0;i<letters.length;i++) {
     result += dictionary[letters[i]]
   }
-  emailLink.setAttribute("href", result)  
+  emailLink.setAttribute("href", result)
 }

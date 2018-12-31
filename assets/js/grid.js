@@ -3,25 +3,28 @@ const circle = document.querySelector("#circle")
 const circleCtx = circle.getContext("2d")
 let windowWidth, windowHeight, coords
 
-;["resize", "click"].forEach(event => window.addEventListener(event, init))
-window.addEventListener("touchmove", (event) => event.prevenDefault())
+window.addEventListener("resize", init)
+window.addEventListener("click", init)
+window.addEventListener("touchmove", (e) => e.prevenDefault())
 
 init()
 runAnimation()
 
 function init() {
+
   const commonCellDimension = Math.floor(Math.random() * 100 + 25)
   const cellHeight = commonCellDimension
   const cellWidth = commonCellDimension
   windowWidth = window.innerWidth
   windowHeight = window.innerHeight
-  const grid = document.querySelector("#grid")
+
+  coords = generateCoords(cellWidth, cellHeight)
 
   ;[grid, circle].forEach(canvas => {
     canvas.setAttribute("width", windowWidth)
     canvas.setAttribute("height", windowHeight)
   })
-  coords = generateCoords(cellWidth, cellHeight)
+
   drawGrid(coords)
 }
 function generateCoords(cellWidth, cellHeight) { // Create grid coordinates
@@ -60,53 +63,59 @@ function drawGrid(coords) {
     ctx.closePath()
   })
 }
-
 function getCircleData() {
-  let randomPoint = coords[Math.floor(Math.random() * coords.length)] 
-  let startEndPoints = getStartEndPoints(randomPoint)
+  let coordinate = coords[Math.floor(Math.random() * coords.length)] 
+  let startEndPoints = getStartEndPoints(coordinate)
+  
   let circleData = {
-    coords: [...randomPoint.start],
+    coords: [coordinate.start[0], coordinate.start[1]],
     r: Math.floor(Math.random() * (40 - 5) + 10),
     c: createColor(), 
     d: startEndPoints[1] - startEndPoints[0] > 0 ? "increment" : "decrement",
-    translateKey: randomPoint.translateKey   
+    target: startEndPoints[1],   
+    translateKey: coordinate.translateKey,
   }
-  circleData.coords[randomPoint.translateKey] = startEndPoints[0]
+  circleData.coords[circleData.translateKey] = startEndPoints[0]   
   return circleData 
 }
-
-function getStartEndPoints(randomPoint) {
+function getStartEndPoints(coordinate) {
   let startEndPoints = [
-    randomPoint.start[randomPoint.translateKey], 
-    randomPoint.end[randomPoint.translateKey]
+    coordinate.start[coordinate.translateKey], 
+    coordinate.end[coordinate.translateKey]
   ]
   let randomIndex = Math.round(Math.random() * (startEndPoints.length-1))
   startEndPoints.push(startEndPoints.splice(randomIndex, 1)[0])
   return startEndPoints  
 }
-
 function runAnimation() {
   circleData = getCircleData()
-  let start = performance.now()  
-  requestAnimationFrame(function(timestamp) {
+  let start = performance.now()
+  requestAnimationFrame(timestamp => {
     animate(timestamp, start, circleData)
   })
 }
-
+function circleOffScreen(circleData) {
+  if (circleData.d === "increment") {
+    return circleData.target - circleData.coords[circleData.translateKey] < 0
+  }
+  if (circleData.d === "decrement") {
+    return circleData.target - circleData.coords[circleData.translateKey] > 0
+  }
+}
 function animate(timestamp, start, circleData) {
   drawCircle(circleData) 
   let delta = timestamp - start
-  if (delta > 6000) {
-    start = timestamp
+  let circleIsOffScreen = circleOffScreen(circleData)
+
+  if (delta > 6000 && circleIsOffScreen) {    
+    start = timestamp    
     circleData = getCircleData()
   }
-  requestAnimationFrame(function(timestamp) {
+  requestAnimationFrame(timestamp => {
     animate(timestamp, start, circleData)
   })
 }
-
-function drawCircle(circleData) { // Draw the circle
-  let translateDiff = circleData.frozenEnd - circleData.frozenStart
+function drawCircle(circleData) {  
   circleCtx.clearRect(0, 0, circle.width, circle.height)
   circleCtx.fillStyle = circleData.c
   circleCtx.beginPath()
