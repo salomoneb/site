@@ -11,7 +11,6 @@ init()
 runAnimation()
 
 function init() {
-
   const commonCellDimension = Math.floor(Math.random() * 100 + 25)
   const cellHeight = commonCellDimension
   const cellWidth = commonCellDimension

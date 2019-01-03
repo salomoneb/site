@@ -1,14 +1,12 @@
 body {
+	font-family: "Inconsolata", monospace;
 	margin: 0;
 }
-h1 { 
-	font-family: "Merriweather";
-}
-p {
-	font-family: "Open Sans";
+h1 {
+	text-transform: uppercase;
 }
 a {
-	border-bottom: 3px dashed;
+	border-bottom: 2px solid;
 	color: currentColor;
 	text-decoration: none;
 }
