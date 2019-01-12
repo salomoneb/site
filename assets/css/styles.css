@@ -3,12 +3,16 @@ body {
 	margin: 0;
 }
 h1 {
+	font-size: 2.2rem;
 	text-transform: uppercase;
 }
 a {
-	border-bottom: 2px solid;
+	border-bottom: 4px solid;
 	color: currentColor;
 	text-decoration: none;
+}
+p {
+	font-size: 1.2rem;
 }
 canvas {
 	height: 100%;
@@ -17,6 +21,9 @@ canvas {
 	top: 0;
 	width: 100%;
 	z-index: -1;
+}
+.divider {
+	opacity: 0.4;
 }
 .main {
 	bottom: 6rem;

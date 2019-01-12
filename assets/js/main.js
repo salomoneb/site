@@ -1,13 +1,16 @@
 console.log("%c👋", "font-size:x-large")
 
+assignColor()
+document.addEventListener("click", assignColor)
+
 function createColor() {
   const hue = Math.round(Math.random() * 360)
   return `hsl(${hue}, 80%, 65%)`
 }
-const linkColor = createColor()
-document.querySelectorAll("a").forEach(link => link.style.borderBottomColor = linkColor)
-
-
+function assignColor() {
+  const linkColor = createColor()
+  document.querySelectorAll("a").forEach(link => link.style.borderBottomColor = linkColor)
+}
 // Stolen from http://www.rustyryan.net/connect/
 const emailLink = document.getElementById("email")
 emailLink.addEventListener("click", deobfuscate)
