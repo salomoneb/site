@@ -1,48 +1,52 @@
 body {
-	font-family: "Inconsolata", monospace;
-	margin: 0;
+  font-family: "Inconsolata", monospace;
+  line-height: 1.2;
+  margin: 0;
 }
 h1 {
-	font-size: 2.2rem;
-	text-transform: uppercase;
+  font-size: 2.2rem;
+  text-transform: uppercase;
 }
 a {
-	border-bottom: 4px solid;
-	color: currentColor;
-	text-decoration: none;
+  border-bottom: 4px solid;
+  color: currentColor;
+  text-decoration: none;
 }
 p {
-	font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 canvas {
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index: -1;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
 }
 .divider {
-	opacity: 0.4;
+  opacity: 0.4;
 }
 .main {
-	bottom: 6rem;
-	left: 4rem;
-	position: absolute;
-	width: 45rem;
-	z-index: 1;
+  bottom: 6rem;
+  left: 4rem;
+  position: absolute;
+  width: 45rem;
+  z-index: 1;
 }
 .name {
-	font-style: italic;
+  font-style: italic;
 }
 @media screen and (max-width: 768px) {
-	body {
-		margin: 1rem;
-	}
-	.main {
-		position: relative;
-		left: 0;
-		top: 0;
-		width: 100%;
-	}
+  body {
+    margin: 1rem;
+  }
+  a {
+    border-bottom-width: 2px;
+  }
+  .main {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }
