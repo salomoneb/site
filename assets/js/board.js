@@ -24,15 +24,15 @@ export default class Board {
     }
   }
 
-  getCoords() {
+  get coords() {
     return this._coords;
   }
 
-  getHeight() {
+  get height() {
     return this._height;
   }
 
-  getWidth() {
+  get width() {
     return this._width;
   }
 
