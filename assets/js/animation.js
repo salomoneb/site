@@ -1,65 +1,33 @@
 import Board from "./Board.js";
 import Circle from "./Circle.js";
+import { createColor } from "./color.js";
 
 const CANVAS = document.querySelector("#grid");
 const CTX = CANVAS.getContext("2d");
 const DIRECTIONS = ["up", "down", "left", "right"];
 const DELAY = 3000;
-const MIN_CELL_SIZE = 25;
 const VELOCITY = 5;
+let frame; // Need this so we can cancel the animation frame
 
-let frame;
-let resizing = false;
+export function initBoard() {
+  CANVAS.setAttribute("width", window.innerWidth);
+  CANVAS.setAttribute("height", window.innerHeight);
 
-document.addEventListener("click", () => {
-  cancelAnimationFrame(frame);
-  init();
-});
-
-window.addEventListener("resize", () => {
-  cancelAnimationFrame(frame);
-
-  if (resizing) {
-    cancelAnimationFrame(resizing);
-  }
-
-  resizing = requestAnimationFrame(() => {
-    init();
-  });
-});
-
-init();
-
-function init() {
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-  CANVAS.setAttribute("width", width);
-  CANVAS.setAttribute("height", height);
-
-  let cellDimensions = Math.floor(Math.random() * 100 + MIN_CELL_SIZE);
-  let board = new Board(width, height, cellDimensions, CTX);
-
-  run(board);
-}
-
-function run(board) {
+  let board = new Board(window.innerWidth, window.innerHeight, CTX);
   board.draw();
 
-  let color = createColor();
-  let radius = Math.floor(Math.random() * 45);
-  let circle = new Circle(radius, color, CTX);
-  console.log(circle);
+  return board;
+}
 
+export function run(board) {
+  // Create the circle
+  const circle = initCircle();
+
+  // Get the direction that it will travel
   const direction = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
-  const { coords } = board;
 
   // Get the start and end coordinates
-  const { start, end, translationKey } = getTranslation(
-    coords,
-    direction,
-    board.width,
-    board.height
-  );
+  const { start, end, translationKey } = getTranslation(board, direction);
 
   // Define the animation state
   const state = {
@@ -71,7 +39,18 @@ function run(board) {
     tripCompleted: false
   };
 
+  // Kick things off
   frame = requestAnimationFrame(() => tick(state));
+}
+
+export function cancelFrame() {
+  cancelAnimationFrame(frame);
+}
+
+function initCircle() {
+  let color = createColor();
+  let radius = Math.floor(Math.random() * 45);
+  return new Circle(radius, color, CTX);
 }
 
 function tick(state) {
@@ -89,7 +68,7 @@ function tick(state) {
 }
 
 /**
- * Draw the board and circle, advance the action
+ * Draw the board and circle, advance the circle
  * @param {Object} state
  */
 function render(state) {
@@ -114,6 +93,7 @@ function render(state) {
         state.tripCompleted = true;
       }
     }
+
     tick(state);
   });
 }
@@ -134,35 +114,38 @@ function delay(startTs, board, circle) {
   });
 }
 
-function createColor() {
-  const hue = Math.round(Math.random() * 360);
-  return `hsl(${hue}, 80%, 65%)`;
-}
-
-function getTranslation(coords, direction, boardWidth, boardHeight) {
+/**
+ * Get the start/end coordinates of the circle animation
+ * and the key for the point that's being translated
+ * @param {Object} board
+ * @param {String} direction
+ * @returns {Object}
+ */
+function getTranslation(board, direction) {
+  const { coords, width, height, cellSize } = board;
   const randX = coords.x[Math.floor(Math.random() * coords.x.length)];
   const randY = coords.y[Math.floor(Math.random() * coords.y.length)];
 
   // Add extra spacing to start and end points so that circle continues offscreen
   const translations = {
     up: {
-      start: [randX, boardHeight + MIN_CELL_SIZE],
-      end: [randX, 0 - MIN_CELL_SIZE],
+      start: [randX, height + cellSize],
+      end: [randX, 0 - cellSize],
       translationKey: 1
     },
     down: {
-      start: [randX, 0 - MIN_CELL_SIZE],
-      end: [randX, boardHeight + MIN_CELL_SIZE],
+      start: [randX, 0 - cellSize],
+      end: [randX, height + cellSize],
       translationKey: 1
     },
     left: {
-      start: [boardWidth + MIN_CELL_SIZE, randY],
-      end: [0 - MIN_CELL_SIZE, randY],
+      start: [width + cellSize, randY],
+      end: [0 - cellSize, randY],
       translationKey: 0
     },
     right: {
-      start: [0 - MIN_CELL_SIZE, randY],
-      end: [boardWidth + MIN_CELL_SIZE, randY],
+      start: [0 - cellSize, randY],
+      end: [width + cellSize, randY],
       translationKey: 0
     }
   };

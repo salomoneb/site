@@ -1,11 +1,12 @@
 const LINE_COLOR = "rgb(202,202,202)";
 const LINE_WIDTH = 0.4;
+const MIN_CELL_SIZE = 25;
 
 export default class Board {
-  constructor(width, height, cellSize, ctx) {
+  constructor(width, height, ctx) {
     this._width = width;
     this._height = height;
-    this._cellSize = cellSize;
+    this._cellSize = Math.floor(Math.random() * 100 + MIN_CELL_SIZE);
     this.ctx = ctx;
     this._coords = {
       x: [],
@@ -34,6 +35,10 @@ export default class Board {
 
   get width() {
     return this._width;
+  }
+
+  get cellSize() {
+    return this._cellSize;
   }
 
   draw() {
