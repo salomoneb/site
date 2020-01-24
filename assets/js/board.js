@@ -14,6 +14,7 @@ export default class Board {
     };
 
     this.setCoords();
+    this.draw();
   }
 
   setCoords() {

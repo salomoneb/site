@@ -2,26 +2,14 @@ import Board from "./Board.js";
 import Circle from "./Circle.js";
 import { createColor } from "./color.js";
 
-const CANVAS = document.querySelector("#grid");
-const CTX = CANVAS.getContext("2d");
 const DIRECTIONS = ["up", "down", "left", "right"];
 const DELAY = 3000;
 const VELOCITY = 5;
 let frame; // Need this so we can cancel the animation frame
 
-export function initBoard() {
-  CANVAS.setAttribute("width", window.innerWidth);
-  CANVAS.setAttribute("height", window.innerHeight);
-
-  let board = new Board(window.innerWidth, window.innerHeight, CTX);
-  board.draw();
-
-  return board;
-}
-
-export function run(board) {
+export function animate(board) {
   // Create the circle
-  const circle = initCircle();
+  const circle = initCircle(board.ctx);
 
   // Get the direction that it will travel
   const direction = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
@@ -47,17 +35,17 @@ export function cancelFrame() {
   cancelAnimationFrame(frame);
 }
 
-function initCircle() {
+function initCircle(ctx) {
   let color = createColor();
   let radius = Math.floor(Math.random() * 45);
-  return new Circle(radius, color, CTX);
+  return new Circle(radius, color, ctx);
 }
 
 function tick(state) {
   const { board, circle, tripCompleted } = state;
 
   if (tripCompleted) {
-    CTX.clearRect(0, 0, board.width, board.height);
+    board.ctx.clearRect(0, 0, board.width, board.height);
     board.draw();
     let startTs = performance.now();
     delay(startTs, board, circle);
@@ -74,7 +62,7 @@ function tick(state) {
 function render(state) {
   const { board, circle, start, end, translationKey } = state;
   frame = requestAnimationFrame(() => {
-    CTX.clearRect(0, 0, board.width, board.height);
+    board.ctx.clearRect(0, 0, board.width, board.height);
     board.draw();
     circle.draw(start);
 
@@ -107,7 +95,7 @@ function render(state) {
 function delay(startTs, board, circle) {
   frame = requestAnimationFrame(ts => {
     if (ts - startTs >= DELAY) {
-      run(board);
+      animate(board);
       return;
     }
     delay(startTs, board, circle);
