@@ -1,22 +1,21 @@
-import Board from "./Board.js";
-import { animate, cancelFrame } from "./animation.js";
+import { initBoard, delay, animate, frame, CTX } from "./animation.js";
+import { createColor } from "./color.js";
 
-const CANVAS = document.querySelector("#grid");
-const CTX = CANVAS.getContext("2d");
+const links = document.querySelectorAll("a");
 
-CANVAS.setAttribute("width", window.innerWidth);
-CANVAS.setAttribute("height", window.innerHeight);
-let board = new Board(window.innerWidth, window.innerHeight, CTX);
+window.addEventListener("click", () => {
+  CTX.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  cancelAnimationFrame(frame);
+  initBoard();
+  delay(performance.now(), animate);
+  colorLinks();
+});
 
-setTimeout(() => {
-  animate(board);
-}, 2000);
+initBoard();
+delay(performance.now(), animate);
+colorLinks();
 
-// window.addEventListener("resize", () => {
-//   CTX.clearRect(0, 0, window.innerWidth, window.innerHeight);
-//   CANVAS.setAttribute("width", window.innerWidth);
-//   CANVAS.setAttribute("height", window.innerHeight);
-//   console.log("context is ", CTX);
-//   let board = new Board(window.innerWidth, window.innerHeight, CTX);
-//   animate(board);
-// });
+function colorLinks() {
+  const color = createColor();
+  links.forEach(link => (link.style.borderBottomColor = color));
+}

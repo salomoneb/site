@@ -4,10 +4,10 @@ const MIN_CELL_SIZE = 25;
 
 export default class Board {
   constructor(width, height, ctx) {
+    this.ctx = ctx;
     this._width = width;
     this._height = height;
     this._cellSize = Math.floor(Math.random() * 100 + MIN_CELL_SIZE);
-    this.ctx = ctx;
     this._coords = {
       x: [],
       y: []

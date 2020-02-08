@@ -2,109 +2,112 @@ import Board from "./Board.js";
 import Circle from "./Circle.js";
 import { createColor } from "./color.js";
 
+const CANVAS = document.querySelector("#grid");
+export const CTX = CANVAS.getContext("2d");
 const DIRECTIONS = ["up", "down", "left", "right"];
 const DELAY = 3000;
 const VELOCITY = 5;
-let frame; // Need this so we can cancel the animation frame
 
-export function animate(board) {
-  // Create the circle
-  const circle = initCircle(board.ctx);
+let board;
+let circle;
+let currentPos;
+let end;
+let translationKey;
+let direction;
+let tripCompleted;
+export let frame;
 
-  // Get the direction that it will travel
-  const direction = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+/**
+ * Initialize the grid
+ */
+export function initBoard() {
+  CANVAS.setAttribute("width", window.innerWidth);
+  CANVAS.setAttribute("height", window.innerHeight);
 
-  // Get the start and end coordinates
-  const { start, end, translationKey } = getTranslation(board, direction);
-
-  // Define the animation state
-  const state = {
-    board,
-    circle,
-    start,
-    end,
-    translationKey,
-    tripCompleted: false
-  };
-
-  // Kick things off
-  frame = requestAnimationFrame(() => tick(state));
+  board = new Board(window.innerWidth, window.innerHeight, CTX);
 }
 
-export function cancelFrame() {
-  cancelAnimationFrame(frame);
-}
-
-function initCircle(ctx) {
-  let color = createColor();
+/**
+ * Start the animation
+ */
+export function animate() {
   let radius = Math.floor(Math.random() * 45);
-  return new Circle(radius, color, ctx);
+  let color = createColor();
+  circle = new Circle(radius, color, CTX);
+
+  direction = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+  tripCompleted = false;
+
+  let translations = getTranslation(board, direction);
+  currentPos = translations.start;
+  end = translations.end;
+  translationKey = translations.translationKey;
+
+  frame = requestAnimationFrame(tick);
 }
 
-function tick(state) {
-  const { board, circle, tripCompleted } = state;
-
+/**
+ * Do something each frame
+ */
+function tick() {
   if (tripCompleted) {
-    board.ctx.clearRect(0, 0, board.width, board.height);
+    CTX.clearRect(0, 0, board.width, board.height);
     board.draw();
     let startTs = performance.now();
-    delay(startTs, board, circle);
+    delay(startTs, animate);
     return;
   }
 
-  render(state);
+  render();
 }
 
 /**
- * Draw the board and circle, advance the circle
- * @param {Object} state
+ * Move the circle and update the state
  */
-function render(state) {
-  const { board, circle, start, end, translationKey } = state;
+function render() {
   frame = requestAnimationFrame(() => {
-    board.ctx.clearRect(0, 0, board.width, board.height);
+    CTX.clearRect(0, 0, board.width, board.height);
     board.draw();
-    circle.draw(start);
+    circle.setCurrentPosition(currentPos);
+    circle.draw();
 
     // The translationKey gives us the coordinate that's being translated
-    if (start[translationKey] < end[translationKey]) {
-      state.start[translationKey] += VELOCITY;
-      if (start[translationKey] >= end[translationKey]) {
-        state.tripCompleted = true;
+    if (currentPos[translationKey] < end[translationKey]) {
+      currentPos[translationKey] += VELOCITY;
+      if (currentPos[translationKey] >= end[translationKey]) {
+        tripCompleted = true;
       }
     }
 
-    if (start[translationKey] > end[translationKey]) {
-      state.start[translationKey] -= VELOCITY;
+    if (currentPos[translationKey] > end[translationKey]) {
+      currentPos[translationKey] -= VELOCITY;
 
-      if (start[translationKey] <= end[translationKey]) {
-        state.tripCompleted = true;
+      if (currentPos[translationKey] <= end[translationKey]) {
+        tripCompleted = true;
       }
     }
 
-    tick(state);
+    tick();
   });
 }
 
 /**
- * Delay the next circle animation
- * @param {String} startTs
- * @param {Object} board
- * @param {Object} circle
+ * An implementation of setTimeout using RAF
+ * @param {Number} startTs
+ * @param {Function} cb
  */
-function delay(startTs, board, circle) {
+export function delay(startTs, cb) {
   frame = requestAnimationFrame(ts => {
     if (ts - startTs >= DELAY) {
-      animate(board);
+      cb();
       return;
     }
-    delay(startTs, board, circle);
+    delay(startTs, cb);
   });
 }
 
 /**
- * Get the start/end coordinates of the circle animation
- * and the key for the point that's being translated
+ * Get the start and end coordinates for each animation cycle, and how the circle should move
  * @param {Object} board
  * @param {String} direction
  * @returns {Object}
@@ -138,4 +141,11 @@ function getTranslation(board, direction) {
     }
   };
   return translations[direction];
+}
+
+/**
+ * Cancel the frame
+ */
+export function cancelFrame() {
+  cancelAnimationFrame(frame);
 }

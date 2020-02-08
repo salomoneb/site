@@ -1,13 +1,16 @@
 export default class Circle {
   constructor(radius, color, ctx) {
+    this.ctx = ctx;
     this._radius = radius;
     this._color = color;
-    this.ctx = ctx;
     this._currentPosition;
   }
 
-  draw(coords) {
+  setCurrentPosition(coords) {
     this._currentPosition = coords;
+  }
+
+  draw() {
     this.ctx.fillStyle = this._color;
     this.ctx.beginPath();
     this.ctx.arc(
