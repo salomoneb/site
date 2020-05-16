@@ -27,10 +27,24 @@
       gtag("js", new Date());
       gtag("config", "UA-77897332-1");
     </script>
-    <script defer src="./assets/js/main.js" type="module"></script>
+    <script defer type="module">
+      import { createColor } from "./assets/js/color.js";
+      let links;
+
+      window.addEventListener("DOMContentLoaded", () => {
+        let color = createColor();
+        links = document.querySelectorAll("a");
+        links.forEach((link) => (link.style.borderBottomColor = color));
+      })
+
+      window.addEventListener("click", () => {
+        let color = createColor();
+        links.forEach((link) => (link.style.borderBottomColor = color));
+      })
+    </script>
+    <script async src="./assets/js/main.js" type="module"></script>
   </head>
   <body title="Click anywhere">
-    <canvas id="grid"></canvas>
     <main class="main">
       <h1>Salomone Baquis</h1>
       <p>
