@@ -2,7 +2,13 @@ import Board from "./Board.js";
 import Circle from "./Circle.js";
 import { createColor } from "./color.js";
 
-const CANVAS = document.querySelector("#grid");
+let CANVAS = document.querySelector("canvas");
+
+if (!CANVAS) {
+  CANVAS = document.createElement("canvas");
+  document.body.appendChild(CANVAS);
+}
+
 export const CTX = CANVAS.getContext("2d");
 const DIRECTIONS = ["up", "down", "left", "right"];
 const DELAY = 3000;
@@ -97,7 +103,7 @@ function render() {
  * @param {Function} cb
  */
 export function delay(startTs, cb) {
-  frame = requestAnimationFrame(ts => {
+  frame = requestAnimationFrame((ts) => {
     if (ts - startTs >= DELAY) {
       cb();
       return;
@@ -122,23 +128,23 @@ function getTranslation(board, direction) {
     up: {
       start: [randX, height + cellSize],
       end: [randX, 0 - cellSize],
-      translationKey: 1
+      translationKey: 1,
     },
     down: {
       start: [randX, 0 - cellSize],
       end: [randX, height + cellSize],
-      translationKey: 1
+      translationKey: 1,
     },
     left: {
       start: [width + cellSize, randY],
       end: [0 - cellSize, randY],
-      translationKey: 0
+      translationKey: 0,
     },
     right: {
       start: [0 - cellSize, randY],
       end: [width + cellSize, randY],
-      translationKey: 0
-    }
+      translationKey: 0,
+    },
   };
   return translations[direction];
 }
