@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 👋 -->
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,64 +8,39 @@
       href="https://fonts.googleapis.com/css?family=Inconsolata:400,700"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="./assets/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="/static/favicon.png" />
     <meta
       name="description"
       content="Salomone Baquis is a web developer in Washington, DC."
     />
     <title>Salomone Baquis</title>
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-77897332-1"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "UA-77897332-1");
-    </script>
-    <script defer type="module">
-      import { createColor } from "./assets/js/color.js";
-      let links;
-
-      window.addEventListener("DOMContentLoaded", () => {
-        let color = createColor();
-        links = document.querySelectorAll("a");
-        links.forEach((link) => (link.style.borderBottomColor = color));
-      })
-
-      window.addEventListener("click", () => {
-        let color = createColor();
-        links.forEach((link) => (link.style.borderBottomColor = color));
-      })
-    </script>
-    <script async src="./assets/js/main.js" type="module"></script>
+    <script async src="/assets/js/main.js" type="module"></script>
   </head>
-  <body title="Click anywhere">
+  <body title="Click me">
+    <canvas id="grid"></canvas>
     <main class="main">
       <h1>Salomone Baquis</h1>
       <p>
         I'm a web developer based in Washington, D.C. My name is pronounced like
         <span class="name">sol-uh-min bah-kweese</span>. I enjoy running, most
         music, and
-        <a href="https://www.youtube.com/watch?v=jJN9mBRX3uo" target="_blank"
+        <a href="https://www.youtube.com/watch?v=jJN9mBRX3uo" target="_blank" rel="noreferrer"
           >this joke</a
         >.
       </p>
       <p>
         I currently work at
-        <a href="https://slate.com/" target="_blank">Slate</a>.
+        <a href="https://slate.com/" target="_blank" rel="noreferrer">Slate</a>.
       </p>
       <p>Get in touch:</p>
       <p class="links">
         <a href="mailto:salomone.l.baquis@gmail.com" id="email" target="_blank">Email</a
         ><span class="divider"> | </span
-        ><a href="https://github.com/salomoneb" target="_blank">Github</a
+        ><a href="https://github.com/salomoneb" target="_blank" rel="noreferrer">Github</a
         ><span class="divider"> | </span
-        ><a href="https://www.linkedin.com/in/salomonebaquis" target="_blank"
+        ><a href="https://www.linkedin.com/in/salomonebaquis" target="_blank" rel="noreferrer"
           >LinkedIn</a
         >
       </p>
