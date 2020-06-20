@@ -87,5 +87,4 @@ function draw(hue) {
 
   let url = canvas.toDataURL();
   favicon.href = url;
-  document.body.appendChild(canvas);
 }
