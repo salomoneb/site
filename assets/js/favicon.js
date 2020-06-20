@@ -30,10 +30,12 @@ let now;
 // Minimum difference between current and target hues
 const minHueDifference = 20;
 
+animateFavicon();
+
 /**
  * Loop
  */
-export function animateFavicon() {
+function animateFavicon() {
   requestAnimationFrame((cycleStart) => {
     // If the difference between the current and target hues is too small, assign a new target and check again
     if (Math.abs(hueDifference) <= minHueDifference) {

@@ -1,8 +1,5 @@
 import { initBoard, delay, animate, frame, CTX } from "./animation.js";
 import { createColor } from "./color.js";
-import { animateFavicon } from "./favicon.js";
-
-animateFavicon();
 
 const links = document.querySelectorAll("a");
 const colorLinks = (links) => {
