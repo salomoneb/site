@@ -15,7 +15,7 @@ a {
 p {
   font-size: 1.2rem;
 }
-canvas {
+#grid {
   height: 100%;
   left: 0;
   position: absolute;

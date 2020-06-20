@@ -1,4 +1,8 @@
 export function createColor() {
-  const hue = Math.round(Math.random() * 360);
-  return `hsl(${hue}, 80%, 60%)`;
+  const hue = randomHue();
+  return `hsl(${hue}, 80%, 65%)`;
+}
+
+export function randomHue() {
+  return Math.ceil(Math.random() * 360);
 }
