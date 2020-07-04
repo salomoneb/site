@@ -19,4 +19,4 @@ window.addEventListener("click", () => {
 
 colorLinks(links);
 initBoard();
-delay(performance.now(), animate);
+animate();
