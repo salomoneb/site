@@ -16,12 +16,20 @@ const VELOCITY = 5;
 
 let board;
 let circle;
-let currentPos;
+let start;
 let end;
-let translationKey;
+
 let direction;
 let tripCompleted;
 export let frame;
+
+let startTs;
+let nowTs;
+let translations;
+let translationKey;
+let distance;
+let speed;
+let SECONDS = 3;
 
 /**
  * Initialize the grid
@@ -36,18 +44,23 @@ export function initBoard() {
 /**
  * Start the animation
  */
-export function animate() {
+export function cycle() {
   let radius = Math.floor(Math.random() * 45);
   let color = createColor();
   circle = new Circle(radius, color, CTX);
 
   direction = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
-  tripCompleted = false;
+  translations = getTranslation(board, direction);
 
-  let translations = getTranslation(board, direction);
-  currentPos = translations.start;
+  start = translations.start;
   end = translations.end;
   translationKey = translations.translationKey;
+
+  distance = end[translationKey] - start[translationKey];
+  speed = distance / SECONDS; // 286 px per sec
+
+  startTs = performance.now();
+  draw(start);
 
   frame = requestAnimationFrame(tick);
 }
@@ -55,46 +68,50 @@ export function animate() {
 /**
  * Do something each frame
  */
-function tick() {
-  if (tripCompleted) {
+function tick(ts) {
+  nowTs = ts;
+  let elapsedTs = nowTs - startTs;
+
+  if (elapsedTs >= SECONDS * 1000) {
+    console.log("we're finished");
     CTX.clearRect(0, 0, board.width, board.height);
-    board.draw();
-    let startTs = performance.now();
-    delay(startTs, animate);
+    // board.draw();
+    // delay(startTs, cycle);
+    cycle();
     return;
   }
 
-  render();
+  let distanceTraveled = (elapsedTs * speed) / 1000;
+  let translatedPosition = distanceTraveled;
+  let currentPosition = [...start];
+  currentPosition[translationKey] = Math.round(
+    start[translationKey] + translatedPosition
+  );
+  console.log(
+    `
+  The start is ${start}\n
+  The end is ${end}\n
+  Start with translation key is ${start[translationKey]}\n
+  On this frame our current translated position should be ${translatedPosition}
+  Each second we should be traveling ${speed}\n
+  Right now, our position is ${currentPosition}
+      `
+  );
+
+  draw(currentPosition);
 }
 
 /**
  * Move the circle and update the state
  */
-function render() {
-  frame = requestAnimationFrame(() => {
-    CTX.clearRect(0, 0, board.width, board.height);
-    board.draw();
-    circle.setCurrentPosition(currentPos);
-    circle.draw();
+function draw(currentPosition) {
+  console.log(`Drawing at ${currentPosition}`);
+  CTX.clearRect(0, 0, board.width, board.height);
+  // board.draw();
+  circle.setCurrentPosition(currentPosition);
+  circle.draw();
 
-    // The translationKey gives us the coordinate that's being translated
-    if (currentPos[translationKey] < end[translationKey]) {
-      currentPos[translationKey] += VELOCITY;
-      if (currentPos[translationKey] >= end[translationKey]) {
-        tripCompleted = true;
-      }
-    }
-
-    if (currentPos[translationKey] > end[translationKey]) {
-      currentPos[translationKey] -= VELOCITY;
-
-      if (currentPos[translationKey] <= end[translationKey]) {
-        tripCompleted = true;
-      }
-    }
-
-    tick();
-  });
+  frame = requestAnimationFrame(tick);
 }
 
 /**
@@ -126,23 +143,23 @@ function getTranslation(board, direction) {
   // Add extra spacing to start and end points so that circle continues offscreen
   const translations = {
     up: {
-      start: [randX, height + cellSize],
-      end: [randX, 0 - cellSize],
+      start: [randX, height],
+      end: [randX, 0],
       translationKey: 1,
     },
     down: {
-      start: [randX, 0 - cellSize],
-      end: [randX, height + cellSize],
+      start: [randX, 0],
+      end: [randX, height],
       translationKey: 1,
     },
     left: {
-      start: [width + cellSize, randY],
-      end: [0 - cellSize, randY],
+      start: [width, randY],
+      end: [0, randY],
       translationKey: 0,
     },
     right: {
-      start: [0 - cellSize, randY],
-      end: [width + cellSize, randY],
+      start: [0, randY],
+      end: [width, randY],
       translationKey: 0,
     },
   };

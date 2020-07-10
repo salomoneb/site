@@ -1,4 +1,4 @@
-import { initBoard, delay, animate, frame, CTX } from "./animation.js";
+import { initBoard, delay, cycle, frame, CTX } from "./animation.js";
 import { createColor } from "./color.js";
 
 const links = document.querySelectorAll("a");
@@ -14,9 +14,10 @@ window.addEventListener("click", () => {
   cancelAnimationFrame(frame);
   initBoard();
 
-  delay(performance.now(), animate);
+  delay(performance.now(), cycle);
 });
 
 colorLinks(links);
 initBoard();
-delay(performance.now(), animate);
+cycle();
+// delay(performance.now(), cycle);
