@@ -1,45 +1,46 @@
 const LINE_COLOR = "rgb(202,202,202)";
 const LINE_WIDTH = 0.4;
 const MIN_CELL_SIZE = 25;
+const MAX_CELL_SIZE = 100;
 
 export default class Board {
-  constructor(width, height, ctx) {
+  constructor(width, height) {
+    const dpr = window.devicePixelRatio;
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    this.width = width;
+    this.height = height;
     this.ctx = ctx;
-    this._width = width;
-    this._height = height;
-    this._cellSize = Math.floor(Math.random() * 100 + MIN_CELL_SIZE);
-    this._coords = {
-      x: [],
-      y: []
-    };
+    this.cellSize = Math.floor(Math.random() * MAX_CELL_SIZE + MIN_CELL_SIZE);
+    this.canvas = canvas;
+    this.coords = this.getCoords();
 
-    this.setCoords();
-    this.draw();
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+
+    ctx.scale(dpr, dpr);
   }
 
-  setCoords() {
-    for (let i = 0; i < this._width; i++) {
-      if (i % this._cellSize === 0) this._coords.x.push(i);
+  getCoords() {
+    let x = [];
+    let y = [];
+
+    for (let i = 0; i < this.width; i++) {
+      if (i % this.cellSize === 0) x.push(i);
     }
-    for (let i = 0; i < this._height; i++) {
-      if (i % this._cellSize === 0) this._coords.y.push(i);
+
+    for (let i = 0; i < this.height; i++) {
+      if (i % this.cellSize === 0) y.push(i);
     }
+
+    return { x, y };
   }
 
-  get coords() {
-    return this._coords;
-  }
-
-  get height() {
-    return this._height;
-  }
-
-  get width() {
-    return this._width;
-  }
-
-  get cellSize() {
-    return this._cellSize;
+  mount() {
+    document.body.appendChild(this.canvas);
   }
 
   draw() {
@@ -47,19 +48,19 @@ export default class Board {
     this.ctx.strokeStyle = LINE_COLOR;
 
     // Vertical lines
-    this._coords.x.forEach(xCoord => {
+    this.coords.x.forEach((coord) => {
       this.ctx.beginPath();
-      this.ctx.moveTo(xCoord, 0);
-      this.ctx.lineTo(xCoord, this._height);
+      this.ctx.moveTo(coord, 0);
+      this.ctx.lineTo(coord, this.height);
       this.ctx.stroke();
       this.ctx.closePath();
     });
 
     // Horizontal lines
-    this._coords.y.forEach(yCoord => {
+    this.coords.y.forEach((coord) => {
       this.ctx.beginPath();
-      this.ctx.moveTo(0, yCoord);
-      this.ctx.lineTo(this._width, yCoord);
+      this.ctx.moveTo(0, coord);
+      this.ctx.lineTo(this.width, coord);
       this.ctx.stroke();
       this.ctx.closePath();
     });
