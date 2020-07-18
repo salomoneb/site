@@ -46,10 +46,6 @@ export default class Board {
     return { x, y };
   }
 
-  mount() {
-    document.body.appendChild(this.canvas);
-  }
-
   draw() {
     this.ctx.lineWidth = LINE_WIDTH;
     this.ctx.strokeStyle = LINE_COLOR;

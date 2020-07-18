@@ -41,7 +41,7 @@ function loop(board) {
   clonedPoints = { start: [...points.start], key: points.key };
 
   let { start, end, key } = points;
-  distance = (end[key] - start[key]) * devicePixelRatio;
+  distance = end[key] - start[key];
   speed = distance / MIN_TIME;
 
   frame = requestAnimationFrame((ts) => {
@@ -53,19 +53,19 @@ function loop(board) {
 function tick(now) {
   let elapsedSecs = (now - startTs) / 1000;
   let startingPoint = points.start[points.key];
+
   let currentPos = startingPoint + elapsedSecs * speed;
+  if (speed < 0) currentPos *= -1;
 
   clonedPoints.start[clonedPoints.key] = Math.round(
     points.start[points.key] + currentPos
   );
 
   let [x, y] = clonedPoints.start;
-  console.log(x, y);
 
   circle.draw(x, y);
 
   if (elapsedSecs >= MIN_TIME + 0.3) {
-    console.log("finished");
     loop(board);
     return;
   }
