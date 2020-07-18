@@ -14,9 +14,14 @@ function loop(board) {
   const randomDirection =
     DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length - 1)];
 
-  const startEnd = getStartEnd(width, height, randomDirection, board.coords);
-  const [current, end] = startEnd[0];
-  console.log(current, end);
+  const [current, end] = getPathCoords(
+    width,
+    height,
+    randomDirection,
+    board.coords
+  )[0];
+
+  console.log(randomDirection);
 
   const hue = Math.ceil(Math.random() * 360);
   const color = `hsl(${hue}, 80%, 65%)`;
@@ -36,31 +41,35 @@ function tick(now, start) {
   // circle.draw(x, y)
 }
 
-function getStartEnd(width, height, direction, coords) {
+function getPathCoords(width, height, direction, coords) {
   const randX = coords.x[Math.floor(Math.random() * coords.x.length)];
   const randY = coords.y[Math.floor(Math.random() * coords.y.length)];
 
   switch (direction) {
     case "up":
-      return [
-        [randX, height],
-        [randX, 0],
-      ];
+      return {
+        start: [randX, height],
+        end: [randX, 0],
+        key: 1,
+      };
     case "down":
-      return [
-        [width, randY],
-        [0, randY],
-      ];
+      return {
+        start: [randX, 0],
+        end: [randX, height],
+        key: 1,
+      };
     case "left":
-      return [
-        [width, randY],
-        [0, randY],
-      ];
+      return {
+        start: [width, randY],
+        end: [0, randY],
+        key: 0,
+      };
     case "right":
-      return [
-        [0, randY],
-        [width, randY],
-      ];
+      return {
+        start: [0, randY],
+        end: [width, randY],
+        key: 0,
+      };
   }
 }
 

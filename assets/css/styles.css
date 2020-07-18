@@ -19,12 +19,20 @@ p {
   font-size: 1.2rem;
 }
 
-.grid {
+.board,
+.circle {
   height: 100%;
   left: 0;
   position: absolute;
   top: 0;
   width: 100%;
+}
+
+.board {
+  z-index: -2;
+}
+
+.circle {
   z-index: -1;
 }
 

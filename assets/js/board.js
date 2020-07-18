@@ -5,8 +5,15 @@ const MAX_CELL_SIZE = 100;
 
 export default class Board {
   constructor(width, height) {
+    let canvas = document.querySelector(".board");
+
+    if (!canvas) {
+      canvas = document.createElement("canvas");
+      canvas.classList.add("board");
+      document.body.appendChild(canvas);
+    }
+
     const dpr = window.devicePixelRatio;
-    const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
     this.width = width;
