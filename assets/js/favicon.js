@@ -1,6 +1,5 @@
 import { randomHue } from "./color.js";
 
-// Selectors
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 let favicon = document.querySelector("link[rel='shortcut icon']");
@@ -30,26 +29,24 @@ let now;
 // Minimum difference between current and target hues
 const minHueDifference = 20;
 
-animateFavicon();
-
 /**
  * Loop
  */
-function animateFavicon() {
+(function () {
   requestAnimationFrame((cycleStart) => {
     // If the difference between the current and target hues is too small, assign a new target and check again
-    if (Math.abs(hueDifference) <= minHueDifference) {
-      targetHue = randomHue();
-      hueDifference = targetHue - currentHue;
-      animateFavicon();
-      return;
-    }
+    // if (Math.abs(hueDifference) <= minHueDifference) {
+    //   targetHue = randomHue();
+    //   hueDifference = targetHue - currentHue;
+    //   animateFavicon();
+    //   return;
+    // }
 
     start = cycleStart;
     now = cycleStart;
     step();
   });
-}
+})();
 
 /**
  * One step of the animation
@@ -87,6 +84,7 @@ function draw(hue) {
   ctx.fill();
   ctx.closePath();
 
+  // Set the favicon
   let url = canvas.toDataURL();
   favicon.href = url;
 }

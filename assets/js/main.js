@@ -1,11 +1,12 @@
-import Board from "./board.js";
-import Circle from "./circle.js";
-
-const button = document.querySelector(".stop");
+import Board from "./Board.js";
+import Circle from "./Circle.js";
+import { createColor } from "./color.js";
 
 const MAX_CIRCLE_RADIUS = 45;
-const MIN_TIME = 5;
-const MAX_TIME = 8;
+const MIN_SECS = 3;
+const MAX_SECS = 8;
+const MIN_DELAY = 1000;
+const MAX_DELAY = 3000;
 const DIRECTIONS = ["up", "down", "left", "right"];
 
 let width = window.innerWidth;
@@ -16,33 +17,42 @@ let frame;
 let distance;
 let speed;
 let points;
+let start;
 let clonedPoints;
 let circle;
 let startTs;
+let randomSecs;
 
-const board = new Board(width, height);
-// board.mount();
+let board = new Board(width, height);
 board.draw();
 loop(board);
 
-button.addEventListener("click", () => {
+document.addEventListener("click", () => {
   cancelAnimationFrame(frame);
+
+  board.ctx.clearRect(0, 0, width, height);
+  board = new Board(width, height);
+  board.draw();
+
+  loop(board);
 });
 
 function loop(board) {
-  let hue = Math.ceil(Math.random() * 360);
-  let color = `hsl(${hue}, 80%, 65%)`;
+  // Create the circle
+  let color = createColor();
   let radius = Math.floor(Math.random() * MAX_CIRCLE_RADIUS);
   circle = new Circle(color, radius);
 
-  // Movement
+  // Get the original coords and create a copy for updating
   let direction = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
   points = getPathCoords(direction, board.coords);
   clonedPoints = { start: [...points.start], key: points.key };
 
-  let { start, end, key } = points;
-  distance = end[key] - start[key];
-  speed = distance / MIN_TIME;
+  // Set movement vars
+  randomSecs = getRandomSecs(MIN_SECS, MAX_SECS);
+  start = points.start[points.key];
+  distance = points.end[points.key] - points.start[points.key];
+  speed = distance / randomSecs;
 
   frame = requestAnimationFrame((ts) => {
     startTs = ts;
@@ -52,21 +62,22 @@ function loop(board) {
 
 function tick(now) {
   let elapsedSecs = (now - startTs) / 1000;
-  let startingPoint = points.start[points.key];
 
-  let currentPos = startingPoint + elapsedSecs * speed;
-  if (speed < 0) currentPos *= -1;
+  // The amount to increment/decrement the translated point
+  let translateAmount = start + elapsedSecs * speed;
 
-  clonedPoints.start[clonedPoints.key] = Math.round(
-    points.start[points.key] + currentPos
-  );
+  // If we're moving from a larger number to a smaller one, make the translation negative
+  if (speed < 0) translateAmount *= -1;
+
+  clonedPoints.start[clonedPoints.key] = Math.round(start + translateAmount);
 
   let [x, y] = clonedPoints.start;
-
   circle.draw(x, y);
 
-  if (elapsedSecs >= MIN_TIME + 0.3) {
-    loop(board);
+  if (elapsedSecs >= randomSecs + 0.3) {
+    setTimeout(() => {
+      loop(board);
+    }, getRandomSecs(MIN_DELAY, MAX_DELAY));
     return;
   }
 
@@ -103,4 +114,8 @@ function getPathCoords(direction, coords) {
         key: 0,
       };
   }
+}
+
+function getRandomSecs(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
