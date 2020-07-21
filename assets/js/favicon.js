@@ -35,12 +35,12 @@ const minHueDifference = 20;
 (function () {
   requestAnimationFrame((cycleStart) => {
     // If the difference between the current and target hues is too small, assign a new target and check again
-    // if (Math.abs(hueDifference) <= minHueDifference) {
-    //   targetHue = randomHue();
-    //   hueDifference = targetHue - currentHue;
-    //   animateFavicon();
-    //   return;
-    // }
+    if (Math.abs(hueDifference) <= minHueDifference) {
+      targetHue = randomHue();
+      hueDifference = targetHue - currentHue;
+      animateFavicon();
+      return;
+    }
 
     start = cycleStart;
     now = cycleStart;

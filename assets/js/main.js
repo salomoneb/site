@@ -27,15 +27,16 @@ let board = new Board(width, height);
 board.draw();
 loop(board);
 
-document.addEventListener("click", () => {
-  cancelAnimationFrame(frame);
+const linkColor = createColor();
+document
+  .querySelectorAll("a")
+  .forEach((link) => (link.style.borderColor = linkColor));
 
-  board.ctx.clearRect(0, 0, width, height);
-  board = new Board(width, height);
-  board.draw();
+const favicon = document.querySelector("link[rel='shortcut icon']");
+const faviconColor = createColor();
+const faviconUrl = getFaviconUrl(faviconColor);
 
-  loop(board);
-});
+favicon.href = faviconUrl;
 
 function loop(board) {
   // Create the circle
@@ -74,7 +75,7 @@ function tick(now) {
   let [x, y] = clonedPoints.start;
   circle.draw(x, y);
 
-  if (elapsedSecs >= randomSecs + 0.3) {
+  if (elapsedSecs >= randomSecs + 0.5) {
     setTimeout(() => {
       loop(board);
     }, getRandomSecs(MIN_DELAY, MAX_DELAY));
@@ -118,4 +119,27 @@ function getPathCoords(direction, coords) {
 
 function getRandomSecs(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getFaviconUrl(color) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  const W = 150,
+    H = 150;
+
+  const X = W / 2,
+    Y = W / 2,
+    R = W / 2;
+
+  canvas.setAttribute("width", W);
+  canvas.setAttribute("height", H);
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(X, Y, R, 0, 2 * Math.PI);
+  ctx.fill();
+  ctx.closePath();
+
+  return canvas.toDataURL();
 }
