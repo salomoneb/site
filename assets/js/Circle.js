@@ -1,5 +1,5 @@
 export default class Circle {
-  constructor(color, radius) {
+  constructor(width, height, color, radius) {
     let canvas = document.querySelector(".circle");
 
     if (!canvas) {
@@ -10,9 +10,6 @@ export default class Circle {
 
     const dpr = window.devicePixelRatio;
     const ctx = canvas.getContext("2d");
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
 
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);

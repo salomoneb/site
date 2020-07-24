@@ -42,7 +42,7 @@ function loop(board) {
   // Create the circle
   let color = createColor();
   let radius = Math.floor(Math.random() * MAX_CIRCLE_RADIUS);
-  circle = new Circle(color, radius);
+  circle = new Circle(width, height, color, radius);
 
   // Get the original coords and create a copy for updating
   let direction = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
