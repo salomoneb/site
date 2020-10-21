@@ -28,7 +28,7 @@ board.draw();
 
 setTimeout(() => {
   loop(board);
-}, 500);
+}, MIN_DELAY);
 
 const linkColor = createColor();
 document
