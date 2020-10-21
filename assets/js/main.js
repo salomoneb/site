@@ -25,7 +25,10 @@ let randomSecs;
 
 let board = new Board(width, height);
 board.draw();
-loop(board);
+
+setTimeout(() => {
+  loop(board);
+}, 500);
 
 const linkColor = createColor();
 document
