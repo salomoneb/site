@@ -27,7 +27,12 @@ let board;
 draw();
 
 // Clicking
-document.addEventListener("click", draw);
+document.addEventListener("click", (e) => {
+  // Don't change the board when links clicked
+  if (e.target.tagName === "A") return;
+
+  draw();
+});
 
 // Resizing
 const debouncedDraw = debounce(draw, 250);
