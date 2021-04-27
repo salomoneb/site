@@ -1,3 +1,7 @@
+:root {
+  --fallback-color: hsl(195, 75%, 52%);
+}
+
 body {
   font-family: "Inconsolata", monospace;
   line-height: 1.2;
@@ -10,7 +14,7 @@ h1 {
 }
 
 a {
-  border-bottom: 3px solid;
+  border-bottom: 3px solid var(--fallback-color);
   color: currentColor;
   text-decoration: none;
 }

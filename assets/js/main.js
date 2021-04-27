@@ -56,6 +56,12 @@ function loop(board) {
   randomSecs = getRandomSecs(MIN_SECS, MAX_SECS);
   start = points.start[points.key];
   distance = points.end[points.key] - points.start[points.key];
+
+  // We want to make sure the circle moves fully off screen.
+  // Get the diameter and tack it on to the translation.
+  const diameter = radius * 2;
+  distance = distance > 0 ? distance + diameter : distance - diameter;
+
   speed = distance / randomSecs;
 
   frame = requestAnimationFrame((ts) => {
