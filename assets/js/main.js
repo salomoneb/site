@@ -9,8 +9,8 @@ const MIN_DELAY = 1000;
 const MAX_DELAY = 3000;
 const DIRECTIONS = ["up", "down", "left", "right"];
 
-let width = window.innerWidth;
-let height = window.innerHeight;
+let width;
+let height;
 
 // Loop vars
 let frame;
@@ -22,13 +22,28 @@ let clonedPoints;
 let circle;
 let startTs;
 let randomSecs;
+let board;
 
-let board = new Board(width, height);
-board.draw();
+draw();
 
-setTimeout(() => {
-  loop(board);
-}, MIN_DELAY);
+// Clicking
+document.addEventListener("click", draw);
+
+// Resizing
+const debouncedDraw = debounce(draw, 250);
+window.addEventListener("resize", debouncedDraw);
+
+function draw() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  board = new Board(width, height);
+  board.draw();
+}
+
+// Disable animation for now
+// setTimeout(() => {
+//   loop(board);
+// }, MIN_DELAY);
 
 const linkColor = createColor();
 document
@@ -151,4 +166,21 @@ function getFaviconUrl(color) {
   ctx.closePath();
 
   return canvas.toDataURL();
+}
+
+// https://davidwalsh.name/javascript-debounce-function
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function () {
+    var context = this,
+      args = arguments;
+    var later = function () {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
 }
